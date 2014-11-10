@@ -1,6 +1,6 @@
 
 html {
-    font-family: cursive;
+    font-family: Tahoma, Geneva, sans-serif;;
     text-align: center;
 }
 
@@ -52,8 +52,8 @@ output {
 }
 
 output, input {
-    font-size: 250%;
-    font-family: cursive;
+    font-size: 200%;
+    font-family: Tahoma, Geneva, sans-serif;;
 }
 
 main > section {
@@ -66,3 +66,10 @@ footer {
     top: 90%;
 }
 
+ul{
+	list-style-type: circle;
+}
+
+li{
+	text-align: left;
+}

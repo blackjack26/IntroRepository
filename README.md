@@ -1,4 +1,4 @@
 TextAdventure-Base
 ==================
 
-An example that offers ideas on how to get started with a JavaScript-based HTML5 text adventure game.
+A text-adventure game that is more than just a dream, it is reality...or is it?

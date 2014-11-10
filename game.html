@@ -5,12 +5,9 @@
     <title> Text Adventure Game </title>
     <meta charset="UTF-8"/>
     <link href="game.css" rel="stylesheet" />
-    <script src="game.js"></script>
-
 </head>
 <body>
-
-    <header>
+<header>
         <h1> TITLE OF MY TEXT ADVENTURE </h1>
     </header>
 
@@ -21,10 +18,11 @@
                 You awaken to find yourself lying on the cold, marble floor of an impressive cathedral. Everything is silent, and you appear to be alone.
             </p>
             <label for="action"> What will you do? </label>
-        </output>
+		</output>
 
         <section>
             <input id="action" type="text" placeholder="Enter an action here..."/>
+			<button class='button' id='button' style="cursor: pointer;">Action!</button>
         </section>
 
     </main>
@@ -42,9 +40,10 @@
     </aside>
 
     <footer>
-        Copyright (c) 2014 YOUR NAME HERE. All rights reserved.
+        Copyright &#169; 2014 Jack Grzechowiak. All rights reserved.
     </footer>
 
+    <script src="game.js" type="text/javascript"></script>
 </body>
 </html>
 

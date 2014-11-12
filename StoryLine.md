@@ -1,9 +1,9 @@
-## Starting Room
+## Game Script by Location
 #### Location: 
     Confinement Room
 #### Script
     Voice: "Okay everybody, your first task will be to get yourself out of your respective rooms, good luck!"
-    ##### Actions:
+    Actions:
         - Look Ahead: "You see a big metal door, it appears to be locked tight"
             - Inspect: "There is some sort of circular opening near the handle of the door"
                 - Think: "Maybe some sort of key goes here"

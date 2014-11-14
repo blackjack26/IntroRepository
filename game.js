@@ -1,4 +1,4 @@
-var newActions = ["pickup", "drop", "peek"];
+var newActions = ["pickup", "drop"];
 var newItems = [];
 function Player(name){
 	this.name = name;

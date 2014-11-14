@@ -1,10 +1,13 @@
+var newActions = ["pickup", "drop", "peek"];
+var newItems = [];
 function Player(name){
 	this.name = name;
 	this.items = [];
-	this.actions = ["pickup", "drop"];
+	this.actions = [];
 }
 Player.prototype.pickup = function(item){
 	this.items.push(item);
+	newItems.push(item);
 }
 Player.prototype.drop = function(item){
 	var index = this.items.indexOf(item);
@@ -22,34 +25,105 @@ Player.prototype.drop = function(item){
 	}
 }
 
+function removeAction(action){
+	var index = player.actions.indexOf(action);
+	if(index >= 0){
+		player.actions.splice(index,1);
+		
+		var help = document.querySelector("#help > ul");
+		var helpItems = help.childNodes;
+		for(i in helpItems){
+			if(helpItems[i].textContent == action){
+				help.removeChild(helpItems[i]);
+				break;
+			}
+		}
+	}
+}
+
 function updateActions(str){
-	for(i in player.actions){
-		if(player.actions[i].startsWith(str)){
-			var help = document.querySelector("#help > ul");
-			var helpItems = help.childNodes;
-			for(i in helpItems){
-				if(helpItems[i].textContent == actions[i]){
+	var help = document.querySelector("#help > ul");
+	var helpItems = help.childNodes;
+	if(str != ""){
+		for(var i = 0; i < helpItems.length; i++){
+			if(helpItems[i].nodeName != "#text"){
+				if(helpItems[i].textContent.indexOf(str) == 0 && helpItems[i].textContent.length != str.length){
 					helpItems[i].style.color = "red";
+					helpItems[i].style.fontWeight = "initial";
+				}else if(str.indexOf(helpItems[i].textContent) == 0){
+					helpItems[i].style.color = "LimeGreen";
+					helpItems[i].style.fontWeight = "bold";
+				}else{
+					helpItems[i].style.color = "black";
+					helpItems[i].style.fontWeight = "initial";
 				}
+			}
+		}
+	}else{
+		for(var i = 0; i < helpItems.length; i++){
+			if(helpItems[i].nodeName != "#text"){
+				helpItems[i].style.color = "black";
+				helpItems[i].style.fontWeight = "initial";
+			}
+		}
+	}
+}
+
+function updateInventory(str){
+	var inventory = document.querySelector("#inventory > ul");
+	var inventoryItems = inventory.childNodes;
+	if(str != ""){
+		for(var i = 0; i < inventoryItems.length; i++){
+			if(inventoryItems[i].nodeName != "#text"){
+				var item = str.substring(str.indexOf(" ")+1);
+				if(inventoryItems[i].textContent.length == item.length){
+					inventoryItems[i].style.color = "LimeGreen";
+					inventoryItems[i].style.fontWeight = "bold";
+				}else if(item != "" && inventoryItems[i].textContent.indexOf(item) == 0){
+					inventoryItems[i].style.color = "red";
+					inventoryItems[i].style.fontWeight = "initial";
+				}else{
+					inventoryItems[i].style.color = "black";
+					inventoryItems[i].style.fontWeight = "initial";
+				}
+			}
+		}
+	}else{
+		for(var i = 0; i < inventoryItems.length; i++){
+			if(inventoryItems[i].nodeName != "#text"){
+				inventoryItems[i].style.color = "black";
+				inventoryItems[i].style.fontWeight = "initial";
 			}
 		}
 	}
 }
 
 function report(){
-	var inventory = document.querySelector("#inventory > ul");
-	for(i in player.items){
-		var liElement = document.createElement("LI");
-		liElement.textContent = player.items[i];
-		inventory.appendChild(liElement);
+	
+	for(i in newItems){
+		addItems(newItems[i]);
 	}
 	
-	var help = document.querySelector("#help > ul");
-	for(i in player.actions){
-		var liElement = document.createElement("LI");
-		liElement.textContent = player.actions[i];
-		help.appendChild(liElement);
+	for(i in newActions){
+		addAction(newActions[i]);
 	}
+	newActions = [];
+	newItems = [];
+}
+
+function addItems(item){
+	var inventory = document.querySelector("#inventory > ul");
+	var liElement = document.createElement("LI");
+	liElement.textContent = item;
+	inventory.appendChild(liElement);
+}
+
+function addAction(action){
+	var help = document.querySelector("#help > ul");
+	var liElement = document.createElement("LI");
+	liElement.textContent = action;
+	help.appendChild(liElement);
+	player.actions.push(action);
 }
 
 function interpret(str){
@@ -62,7 +136,8 @@ function interpret(str){
 }
 
 function execute(obj){
-	player[obj.action](obj.object);
+	if(player.actions.indexOf(obj.action) >= 0)
+		player[obj.action](obj.object);
 }
 
 function gameStep(str){
@@ -77,8 +152,10 @@ function gameStart(){
 	textbox.addEventListener("keyup", function(event){
 		if(event.keyCode == 13){
 			gameStep(textbox.value);
+			textbox.value = "";
 		}
 		updateActions(textbox.value);
+		updateInventory(textbox.value);
 	});
 }
 

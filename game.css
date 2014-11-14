@@ -46,7 +46,6 @@ output {
     display: block;
     margin: auto;
     height: 50%;
-    padding: 5%;
     border: 3px groove gray;
     border-radius: 1em;
 }

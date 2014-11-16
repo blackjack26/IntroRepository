@@ -1,4 +1,4 @@
-var newActions = ["pickup", "drop"];
+var newActions = ["pickup", "drop", "look ahead", "look back"];
 var newItems = [];
 function Player(name){
 	this.name = name;
@@ -48,13 +48,13 @@ function updateActions(str){
 		for(var i = 0; i < helpItems.length; i++){
 			if(helpItems[i].nodeName != "#text"){
 				if(helpItems[i].textContent.indexOf(str) == 0 && helpItems[i].textContent.length != str.length){
-					helpItems[i].style.color = "red";
+					helpItems[i].style.color = "orange";
 					helpItems[i].style.fontWeight = "initial";
 				}else if(str.indexOf(helpItems[i].textContent) == 0){
 					helpItems[i].style.color = "LimeGreen";
 					helpItems[i].style.fontWeight = "bold";
 				}else{
-					helpItems[i].style.color = "black";
+					helpItems[i].style.color = "white";
 					helpItems[i].style.fontWeight = "initial";
 				}
 			}
@@ -62,7 +62,7 @@ function updateActions(str){
 	}else{
 		for(var i = 0; i < helpItems.length; i++){
 			if(helpItems[i].nodeName != "#text"){
-				helpItems[i].style.color = "black";
+				helpItems[i].style.color = "white";
 				helpItems[i].style.fontWeight = "initial";
 			}
 		}
@@ -76,14 +76,16 @@ function updateInventory(str){
 		for(var i = 0; i < inventoryItems.length; i++){
 			if(inventoryItems[i].nodeName != "#text"){
 				var item = str.substring(str.indexOf(" ")+1);
-				if(inventoryItems[i].textContent.length == item.length){
-					inventoryItems[i].style.color = "LimeGreen";
-					inventoryItems[i].style.fontWeight = "bold";
-				}else if(item != "" && inventoryItems[i].textContent.indexOf(item) == 0){
-					inventoryItems[i].style.color = "red";
-					inventoryItems[i].style.fontWeight = "initial";
+				if(item != "" && inventoryItems[i].textContent.indexOf(item) == 0){
+					if(inventoryItems[i].textContent.length == item.length){
+						inventoryItems[i].style.color = "LimeGreen";
+						inventoryItems[i].style.fontWeight = "bold";
+					}else{
+						inventoryItems[i].style.color = "orange";
+						inventoryItems[i].style.fontWeight = "initial";
+					}
 				}else{
-					inventoryItems[i].style.color = "black";
+					inventoryItems[i].style.color = "white";
 					inventoryItems[i].style.fontWeight = "initial";
 				}
 			}
@@ -91,7 +93,7 @@ function updateInventory(str){
 	}else{
 		for(var i = 0; i < inventoryItems.length; i++){
 			if(inventoryItems[i].nodeName != "#text"){
-				inventoryItems[i].style.color = "black";
+				inventoryItems[i].style.color = "white";
 				inventoryItems[i].style.fontWeight = "initial";
 			}
 		}

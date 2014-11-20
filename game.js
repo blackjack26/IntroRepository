@@ -149,10 +149,11 @@ function gameStep(str){
 }
 
 function gameStart(){
+	var ENTER_KEY = 13;
 	report();
 	var textbox = document.getElementById("action");
 	textbox.addEventListener("keyup", function(event){
-		if(event.keyCode == 13){
+		if(event.keyCode == ENTER_KEY){
 			gameStep(textbox.value);
 			textbox.value = "";
 		}

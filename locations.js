@@ -23,7 +23,7 @@ var map = {
 var getAdjacentLocations = function(locNum){
 	for(var i = 0; i < map.connect.length; i++){
 		if(map.connect[locNum][i] == 1){
-			console.log(locations[i].name);
+			console.log(map.locs[locNum].name + " is connceted to " + map.locs[i].name);
 		}
 	}
 }

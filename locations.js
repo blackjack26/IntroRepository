@@ -28,4 +28,4 @@ var getAdjacentLocations = function(locNum){
 	}
 }
 
-getAdjacentLocations(2);
+getAdjacentLocations(1);

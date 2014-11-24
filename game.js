@@ -1,9 +1,10 @@
-var newActions = ["pickup", "drop", "look ahead", "look back"];
+var newActions = map.locs[roomNum].actions;
 var newItems = [];
 function Player(name){
 	this.name = name;
 	this.items = [];
 	this.actions = [];
+	this.inspecting = false;
 }
 Player.prototype.pickup = function(item){
 	this.items.push(item);
@@ -22,6 +23,70 @@ Player.prototype.drop = function(item){
 				break;
 			}
 		}
+	}
+}
+
+Player.prototype.think = function(){
+	changeDescrip("think");
+}
+
+Player.prototype.lookahead = function(){
+	changeDescrip("look ahead");
+	removeAction("look ahead");
+	removeAction("think");
+	addNewAction("inspect");
+	addNewAction("look back");
+	direction = FACE_FORWARD;
+}
+
+Player.prototype.lookback = function(){
+	changeDescrip("look back");
+	removeAction("think");
+	removeAction("look back");
+	addNewAction("inspect");
+	addNewAction("look ahead");
+	direction = FACE_BACKWARD;
+}
+
+Player.prototype.inspect = function(){
+	changeDescrip("inspect");
+	this.inspecting = true;
+	removeAllActions();
+	specialInspectActions([roomNum, direction]);
+	addNewAction("return");
+	addNewAction("think");
+	addNewAction("punch");
+}
+
+Player.prototype.return = function(){
+	direction = NEUTRAL;
+	newActions = DEFAULT_ACTIONS;
+	this.inspecting = false;
+	removeAllActions();
+	changeDescrip("default");
+}
+
+Player.prototype.punch = function(){
+	changeDescrip("punch");
+}
+
+Player.prototype.lookthrough = function(){
+	changeDescrip("look through");
+}
+
+Player.prototype.insertfinger = function(){
+	changeDescrip("insert finger");
+}
+
+function changeDescrip(type){
+	var descrip = document.getElementById("descrip");
+	descrip.textContent = getTextFrom([roomNum,direction], type);
+}
+
+function removeAllActions(){
+	var num = player.actions.length;
+	for(var i = 0; i < num; i++){
+		removeAction(player.actions[0]);
 	}
 }
 
@@ -105,9 +170,9 @@ function report(){
 	for(i in newItems){
 		addItems(newItems[i]);
 	}
-	
 	for(i in newActions){
-		addAction(newActions[i]);
+		if(player.actions.indexOf(newActions[i]) < 0)
+			addAction(newActions[i]);
 	}
 	newActions = [];
 	newItems = [];
@@ -120,6 +185,10 @@ function addItems(item){
 	inventory.appendChild(liElement);
 }
 
+function addNewAction(action){
+	newActions.push(action);
+}
+
 function addAction(action){
 	var help = document.querySelector("#help > ul");
 	var liElement = document.createElement("LI");
@@ -130,16 +199,26 @@ function addAction(action){
 
 function interpret(str){
 	var obj = {};
-	var strArray = str.split(" ");
-	obj.action = strArray[0];
-	strArray.shift();
-	obj.object = strArray.join(" ");
+	if(str.indexOf("look") != 0 && str.indexOf("insert") != 0){
+		var strArray = str.split(" ");
+		obj.action = strArray[0];
+		strArray.shift();
+		obj.object = strArray.join(" ");
+	}else{
+		obj.action = str;
+		obj.object = "";
+	}
 	return obj;
 }
 
 function execute(obj){
-	if(player.actions.indexOf(obj.action) >= 0)
-		player[obj.action](obj.object);
+	if(player.actions.indexOf(obj.action) >= 0){
+		if(obj.action.indexOf("look") == 0 || obj.action.indexOf("insert") == 0){
+			player[obj.action.split(" ").join("")]();
+		}else{
+			player[obj.action](obj.object);
+		}
+	}
 }
 
 function gameStep(str){
@@ -149,8 +228,7 @@ function gameStep(str){
 }
 
 function gameStart(){
-	var ENTER_KEY = 13;
-	report();
+	var ENTER_KEY = 13;	
 	var textbox = document.getElementById("action");
 	textbox.addEventListener("keyup", function(event){
 		if(event.keyCode == ENTER_KEY){
@@ -160,7 +238,10 @@ function gameStart(){
 		updateActions(textbox.value);
 		updateInventory(textbox.value);
 	});
+	
+	report();
 }
 
 var player = new Player("Jack");
+player.pickup("key");
 window.onload = gameStart;

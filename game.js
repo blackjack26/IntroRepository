@@ -5,10 +5,18 @@ function Player(name){
 	this.items = [];
 	this.actions = [];
 	this.inspecting = false;
+	this.question = "";
+	this.errorCount = 0;
 }
 Player.prototype.pickup = function(item){
-	this.items.push(item);
-	newItems.push(item);
+	for(i in map.locs[roomNum].items){
+		if(map.locs[roomNum].items[i] == item){
+			this.items.push(item);
+			newItems.push(item);
+			map.locs[roomNum].removeItem(item);
+		}
+	}
+
 }
 Player.prototype.drop = function(item){
 	var index = this.items.indexOf(item);
@@ -66,6 +74,10 @@ Player.prototype.return = function(){
 	changeDescrip("default");
 }
 
+Player.prototype.use = function(item){
+	itemUsedIn([roomNum,direction], item);
+}
+
 Player.prototype.punch = function(){
 	changeDescrip("punch");
 }
@@ -80,7 +92,7 @@ Player.prototype.insertfinger = function(){
 
 function changeDescrip(type){
 	var descrip = document.getElementById("descrip");
-	descrip.textContent = getTextFrom([roomNum,direction], type);
+	descrip.innerHTML = getTextFrom([roomNum,direction], type);
 }
 
 function removeAllActions(){
@@ -199,7 +211,7 @@ function addAction(action){
 
 function interpret(str){
 	var obj = {};
-	if(str.indexOf("look") != 0 && str.indexOf("insert") != 0){
+	if(str.indexOf("look") != 0 && str.indexOf("insert") != 0 && player.question == ""){
 		var strArray = str.split(" ");
 		obj.action = strArray[0];
 		strArray.shift();
@@ -212,12 +224,21 @@ function interpret(str){
 }
 
 function execute(obj){
-	if(player.actions.indexOf(obj.action) >= 0){
+	if(player.question != ""){
+		checkAnswer(obj.action);
+	}else if(player.actions.indexOf(obj.action) >= 0){
 		if(obj.action.indexOf("look") == 0 || obj.action.indexOf("insert") == 0){
 			player[obj.action.split(" ").join("")]();
 		}else{
 			player[obj.action](obj.object);
 		}
+	}
+	
+	if(map.locs[roomNum].items.length == 0){
+		removeAction("pickup");
+	}
+	if(player.items.length == 0){
+		removeAction("use");
 	}
 }
 
@@ -225,11 +246,15 @@ function gameStep(str){
 	var obj = interpret(str);
 	execute(obj);
 	report();
+	if(player.errorCount == 3){
+		setTimeout(function(){location.reload();}, 3000);
+	}
 }
 
 function gameStart(){
 	var ENTER_KEY = 13;	
 	var textbox = document.getElementById("action");
+	report();
 	textbox.addEventListener("keyup", function(event){
 		if(event.keyCode == ENTER_KEY){
 			gameStep(textbox.value);
@@ -238,10 +263,7 @@ function gameStart(){
 		updateActions(textbox.value);
 		updateInventory(textbox.value);
 	});
-	
-	report();
 }
 
 var player = new Player("Jack");
-player.pickup("key");
 window.onload = gameStart;

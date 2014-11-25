@@ -1,3 +1,12 @@
+function checkAnswer(answer){
+	if(player.question == "shape" && answer == "circle"){
+		changeDescrip("hidden");
+	}else{
+		player.errorCount += 1;
+		changeDescrip("incorrect");
+	}
+}
+
 function specialInspectActions(roomLocDir){
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == FACE_FORWARD){
@@ -6,6 +15,19 @@ function specialInspectActions(roomLocDir){
 				newActions.push("use");
 		}else if(roomLocDir[1] == FACE_BACKWARD){
 			newActions = ["insert finger"];
+		}
+	}
+}
+
+function itemUsedIn(roomLocDir, item){
+	if(roomLocDir[0] == CELL_ID){
+		if(roomLocDir[1] == FACE_FORWARD){
+			if(player.inspecting){
+				if(item == "key"){
+					player.drop(item);
+					changeRoom();
+				}
+			}
 		}
 	}
 }
@@ -43,10 +65,25 @@ function getTextFrom(roomLocDir, actionType){
 			if(player.inspecting){
 				if(actionType == "think")
 					return "Could these shapes mean something?";
-				if(actionType == "insert finger")
+				if(actionType == "insert finger"){
+					player.question = "shape";
 					return "What shape do you see?";
+				}
 				if(actionType == "punch")
 					return "You hit the wall and you cut your hand and broke a tile";
+				if(actionType == "hidden"){
+					player.errorCount = 0;
+					player.question = "";
+					addNewAction("pickup");
+					return "A panel on the wall opened up and you can see a <span style='text-decoration: underline; font-weight: bold;'> key</span>!";
+				}
+				if(actionType == "incorrect"){
+					if(player.errorCount == 3){
+						return "Strike 3! You have been terminated. Goodbye";
+					}
+					return "Strike " + player.errorCount + "!";
+					
+				}
 			}
 		}
 	}

@@ -29,9 +29,11 @@ var cell = new Location("Cell", "You are in a cell, not too much to see from the
 var hallway = new Location("Hallway", "You are in a long hallway with many doors on both sides", []);
 var locations = [cell, hallway];
 
-// 1: Look Ahead
-// 0: Not Connected
-// -1: Look Back
+//-1: Look back
+// 0: No Connection
+// 1: Look ahead
+// 2: Left
+// 3: Right
 var connections = 
 	[[0,1],
 	 [-1,0]];

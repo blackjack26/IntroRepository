@@ -67,6 +67,7 @@ function getTextFrom(roomLocDir, actionType){
 					return "Could these shapes mean something?";
 				if(actionType == "insert finger"){
 					player.question = "shape";
+					document.getElementById("action").placeholder = "Answer the question";
 					return "What shape do you see?";
 				}
 				if(actionType == "punch")
@@ -74,6 +75,7 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "hidden"){
 					player.errorCount = 0;
 					player.question = "";
+					document.getElementById("action").placeholder = "What will you do?";
 					addNewAction("pickup");
 					return "A panel on the wall opened up and you can see a <span style='text-decoration: underline; font-weight: bold;'> key</span>!";
 				}

@@ -252,6 +252,9 @@ function gameStep(str){
 }
 
 function gameStart(){
+	name = prompt("What is your name?", "Don't make it a boring one");
+	
+	document.getElementById("descrip").textContent = name + ", " + map.locs[0].description;
 	var ENTER_KEY = 13;	
 	var textbox = document.getElementById("action");
 	report();
@@ -267,3 +270,4 @@ function gameStart(){
 
 var player = new Player("Jack");
 window.onload = gameStart;
+var name = "";

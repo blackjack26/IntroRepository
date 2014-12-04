@@ -1,5 +1,14 @@
+var questionAnswers = {
+	//question-type: "answer"
+	shape: "circle",
+};
+
+function isCorrect(answer, question){
+	return questionAnswers[question] == answer;
+}
+
 function checkAnswer(answer){
-	if(player.question == "shape" && answer == "circle"){
+	if(isCorrect(answer, player.question)){
 		changeDescrip("hidden");
 	}else{
 		player.errorCount += 1;
@@ -8,6 +17,7 @@ function checkAnswer(answer){
 }
 
 function specialInspectActions(roomLocDir){
+	/**** Cell ****/
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == FACE_FORWARD){
 			if(map.openDoors[CELL_ID][FACE_FORWARD] == 1)
@@ -23,6 +33,7 @@ function specialInspectActions(roomLocDir){
 }
 
 function itemUsedIn(roomLocDir, item){
+	/**** Cell ****/
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == FACE_FORWARD){
 			if(player.inspecting){

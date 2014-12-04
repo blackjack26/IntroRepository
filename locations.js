@@ -1,7 +1,7 @@
 var CELL_ID = 0, 
 	HALLWAY_ID = 1;
 
-var FACE_BACKWARD = -1,
+var FACE_BACKWARD = -1, //4
 	NEUTRAL = 0,
 	FACE_FORWARD = 1,
 	FACE_LEFT = 2,
@@ -29,7 +29,8 @@ Location.prototype.removeItem = function(item){
 
 var locations = [ 
 					new Location("Cell", "You are in a cell, not too much to see from the current spot", ["key"]),
-					new Location("Hallway", "You are in a long hallway with many doors on both sides", [])
+					new Location("Hallway", "You are in a long hallway with many doors on both sides", []),
+					new Location("Empty Cell", "You are in another cell, it seems as though no one has been here for a while", ["map"])
 				];
 
 //-1: Look back
@@ -38,9 +39,9 @@ var locations = [
 // 2: Left
 // 3: Right
 var connections = 
-	[[ 0, 1],
-	 [-1, 0]];
-
+	[[ 0, 1, 0],	//Cell
+	 [-1, 0, 2],	//Hallway	
+	 [ 0, 3, 0]];	//Empty Cell
 var map = {
 	locs: locations,
 	connect: connections,

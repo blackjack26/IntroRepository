@@ -13,7 +13,7 @@ function specialInspectActions(roomLocDir){
 			newActions = ["look through"];
 			if(player.items.length > 0)
 				newActions.push("use");
-		}else if(roomLocDir[1] == FACE_BACKWARD){
+		}else if(roomLocDir[1] == FACE_BACKWARD && player.items.indexOf("key") < 0){
 			newActions = ["insert finger"];
 		}
 	}
@@ -45,8 +45,6 @@ function getTextFrom(roomLocDir, actionType){
 			if(actionType == "look back")
 				return "There's nothing but a concrete wall.";
 		}else if(roomLocDir[1] == FACE_FORWARD){
-			if(actionType == "look back")
-				return "You turned around and there's nothing but a concrete wall.";
 			if(actionType == "inspect")
 				return "There is some sort of circular opening near the handle of the door";
 			if(player.inspecting){
@@ -58,8 +56,6 @@ function getTextFrom(roomLocDir, actionType){
 					return "You hit the door and hurt your hand, good job";
 			}
 		}else if(roomLocDir[1] == FACE_BACKWARD){
-			if(actionType == "look ahead")
-				return "You turned around and you see a big metal door, it appears to be locked tight.";
 			if(actionType == "inspect")
 				return "The wall has a tile pattern with all sorts of shapes and a small hole in the middle";
 			if(player.inspecting){

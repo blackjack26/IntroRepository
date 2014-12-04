@@ -40,20 +40,20 @@ Player.prototype.think = function(){
 
 Player.prototype.lookahead = function(){
 	changeDescrip("look ahead");
-	removeAction("look ahead");
-	removeAction("think");
-	addNewAction("inspect");
-	addNewAction("look back");
+	looking();
 	direction = FACE_FORWARD;
 }
 
 Player.prototype.lookback = function(){
 	changeDescrip("look back");
-	removeAction("think");
-	removeAction("look back");
-	addNewAction("inspect");
-	addNewAction("look ahead");
+	looking();
 	direction = FACE_BACKWARD;
+}
+
+function looking(){
+	removeActions(DEFAULT_ACTIONS);
+	addNewAction("inspect");
+	addNewAction("return");
 }
 
 Player.prototype.inspect = function(){
@@ -99,6 +99,12 @@ function removeAllActions(){
 	var num = player.actions.length;
 	for(var i = 0; i < num; i++){
 		removeAction(player.actions[0]);
+	}
+}
+
+function removeActions(actionArray){
+	for(a in actionArray){
+		removeAction(actionArray[a]);
 	}
 }
 

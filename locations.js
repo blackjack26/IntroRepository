@@ -7,7 +7,7 @@ var FACE_BACKWARD = -1,
 	FACE_LEFT = 2,
 	FACE_RIGHT = 3;
 
-var DEFAULT_ACTIONS = ["look ahead", "look back", "think"];
+var DEFAULT_ACTIONS = ["look ahead", "look back", "look left", "look right", "think"];
 
 function Location(name, description, items){
 	this.name = name;
@@ -38,17 +38,19 @@ var locations = [
 // 2: Left
 // 3: Right
 var connections = 
-	[[0,1],
-	 [-1,0]];
+	[[ 0, 1],
+	 [-1, 0]];
 
 var map = {
 	locs: locations,
-	connect: connections
+	connect: connections,
+	openDoors: [[]],
 }
 
 function changeRoom(){
 	for(var c = 0; c < map.connect.length; c++){
 		if(map.connect[roomNum][c] == direction){ //if there is a connection in the direction you are facing
+			map.openDoors[roomNum][c] = 1;
 			roomNum = c;
 			document.querySelector("#currRoom > p").textContent = map.locs[roomNum].name;
 			player.return(); //resets to the default

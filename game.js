@@ -7,6 +7,12 @@ function Player(name){
 	this.inspecting = false;
 	this.question = "";
 	this.errorCount = 0;
+	this.directions = {
+		forward: 1,
+		left: 2,
+		back: 3,
+		right: 4
+	}
 }
 Player.prototype.pickup = function(item){
 	for(i in map.locs[roomNum].items){
@@ -41,25 +47,25 @@ Player.prototype.think = function(){
 Player.prototype.lookahead = function(){
 	looking();
 	changeDescrip("look ahead");
-	direction = FACE_FORWARD;
+	direction = this.directions.forward;
 }
 
 Player.prototype.lookback = function(){
 	looking();
 	changeDescrip("look back");
-	direction = FACE_BACKWARD;
+	direction = this.directions.back;
 }
 
 Player.prototype.lookleft = function(){
 	looking();
 	changeDescrip("look left");
-	direction = FACE_LEFT;
+	direction = this.directions.left;
 }
 
 Player.prototype.lookright = function(){
 	looking();
 	changeDescrip("look right");
-	direction = FACE_RIGHT;
+	direction = this.directions.right;
 }
 
 function looking(){
@@ -91,6 +97,7 @@ Player.prototype.use = function(item){
 }
 
 Player.prototype.enter = function(){
+	adjustDirectionsToOffset();
 	changeRoom();
 }
 

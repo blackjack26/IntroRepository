@@ -1,12 +1,15 @@
 var CELL_ID = 0, 
 	HALLWAY_ID = 1;
+	EMPTY_CELL_ID = 2;
 
-var FACE_BACKWARD = -1, //4
-	NEUTRAL = 0,
-	FACE_FORWARD = 1,
-	FACE_LEFT = 2,
-	FACE_RIGHT = 3;
+var NEUTRAL = 0,
+	NORTH = 1,
+	WEST = 2,
+	SOUTH = 3,
+	EAST = 4;
 
+
+	
 var DEFAULT_ACTIONS = ["look ahead", "look back", "look left", "look right", "think"];
 
 function Location(name, description, items){
@@ -37,11 +40,12 @@ var locations = [
 // 0: No Connection
 // 1: Look ahead
 // 2: Left
-// 3: Right
+// 3: Look back
+// 4: Right
 var connections = 
 	[[ 0, 1, 0],	//Cell
-	 [-1, 0, 2],	//Hallway	
-	 [ 0, 3, 0]];	//Empty Cell
+	 [ 3, 0, 2],	//Hallway	
+	 [ 0, 4, 0]];	//Empty Cell
 var map = {
 	locs: locations,
 	connect: connections,
@@ -70,5 +74,26 @@ function openDoor(){
 	}
 }
 
+function adjustDirectionsToOffset(){
+	offset = direction-1;
+	console.log("Offset: " + offset + "\nDirection: " + direction);
+	var tempDirs = [NORTH, WEST, SOUTH, EAST];
+	for(var i = 0; i < offset; i++){
+		for(x in tempDirs){
+			tempDirs[x]++;
+			if(tempDirs[x] > 4)
+				tempDirs[x] = 1;
+		}
+	}
+	player.directions.forward = tempDirs[0];
+	player.directions.left = tempDirs[1];
+	player.directions.back = tempDirs[2];
+	player.directions.right = tempDirs[3];
+	for(i in tempDirs){
+		console.log(player.directions);
+	}
+}
+
 var roomNum = 0;
 var direction = 0;
+var offset = 0;

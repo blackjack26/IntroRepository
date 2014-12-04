@@ -19,15 +19,19 @@ function checkAnswer(answer){
 function specialInspectActions(roomLocDir){
 	/**** Cell ****/
 	if(roomLocDir[0] == CELL_ID){
-		if(roomLocDir[1] == FACE_FORWARD){
-			if(map.openDoors[CELL_ID][FACE_FORWARD] == 1)
+		if(roomLocDir[1] == NORTH){
+			if(map.openDoors[CELL_ID][NORTH] == 1)
 				newActions = ["enter"];
 			else
 				newActions = ["look through"];
 			if(player.items.length > 0)
 				newActions.push("use");
-		}else if(roomLocDir[1] == FACE_BACKWARD && player.items.indexOf("key") < 0){
+		}else if(roomLocDir[1] == SOUTH && player.items.indexOf("key") < 0){
 			newActions = ["insert finger"];
+		}
+	}else if(roomLocDir[0] == HALLWAY_ID){
+		if(roomLocDir[1] == WEST){
+			newActions = ["enter"];
 		}
 	}
 }
@@ -35,7 +39,7 @@ function specialInspectActions(roomLocDir){
 function itemUsedIn(roomLocDir, item){
 	/**** Cell ****/
 	if(roomLocDir[0] == CELL_ID){
-		if(roomLocDir[1] == FACE_FORWARD){
+		if(roomLocDir[1] == NORTH){
 			if(player.inspecting){
 				if(item == "key"){
 					player.drop(item);
@@ -47,6 +51,8 @@ function itemUsedIn(roomLocDir, item){
 }
 
 function getTextFrom(roomLocDir, actionType){
+	console.log("Location: " + roomLocDir[0] + ", Direction: " + roomLocDir[1]);
+
 	if(actionType == "default"){
 		return map.locs[roomLocDir[0]].description;
 	}else if(actionType == "door"){
@@ -59,7 +65,7 @@ function getTextFrom(roomLocDir, actionType){
 			if(actionType == "think")
 				return "How did I even get in this place? I don't remember anything.";
 			if(actionType == "look ahead"){
-				if(map.openDoors[CELL_ID][FACE_FORWARD] == undefined){
+				if(map.openDoors[CELL_ID][NORTH] == undefined){
 					return "You see a big metal door, it appears to be locked tight.";
 				}else{
 					return "You see a large metal door that is open.";
@@ -75,7 +81,7 @@ function getTextFrom(roomLocDir, actionType){
 				unstageAction("inspect");
 				return "There is a hairline crack in the wall, but that's it.";
 			}
-		}else if(roomLocDir[1] == FACE_FORWARD){
+		}else if(roomLocDir[1] == NORTH){
 			if(actionType == "inspect"){
 				return "There is some sort of circular opening near the handle of the door";
 			}
@@ -87,7 +93,7 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "punch")
 					return "You hit the door and hurt your hand, good job";
 			}
-		}else if(roomLocDir[1] == FACE_BACKWARD){
+		}else if(roomLocDir[1] == SOUTH){
 			if(actionType == "inspect")
 				return "The wall has a tile pattern with all sorts of shapes and a small hole in the middle";
 			if(player.inspecting){
@@ -115,6 +121,14 @@ function getTextFrom(roomLocDir, actionType){
 					
 				}
 			}
+		}
+	}else if(roomLocDir[0] == EMPTY_CELL_ID){
+		if(roomLocDir[1] == NORTH){
+			if(actionType == "inspect")
+				return "LOOKING NORTH";
+		}else if(roomLocDir[1] == WEST){
+			if(actionType == "inspect")
+				return "LOOKING WEST";
 		}
 	}
 	

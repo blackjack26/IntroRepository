@@ -10,7 +10,10 @@ function checkAnswer(answer){
 function specialInspectActions(roomLocDir){
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == FACE_FORWARD){
-			newActions = ["look through"];
+			if(map.openDoors[CELL_ID][FACE_FORWARD] == 1)
+				newActions = ["enter"];
+			else
+				newActions = ["look through"];
 			if(player.items.length > 0)
 				newActions.push("use");
 		}else if(roomLocDir[1] == FACE_BACKWARD && player.items.indexOf("key") < 0){
@@ -25,7 +28,7 @@ function itemUsedIn(roomLocDir, item){
 			if(player.inspecting){
 				if(item == "key"){
 					player.drop(item);
-					changeRoom();
+					openDoor();
 				}
 			}
 		}
@@ -35,18 +38,36 @@ function itemUsedIn(roomLocDir, item){
 function getTextFrom(roomLocDir, actionType){
 	if(actionType == "default"){
 		return map.locs[roomLocDir[0]].description;
+	}else if(actionType == "door"){
+		return "The door opened!";
 	}
+	
+	/**** CELL ****/
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == NEUTRAL){
 			if(actionType == "think")
 				return "How did I even get in this place? I don't remember anything.";
-			if(actionType == "look ahead")
-				return "You see a big metal door, it appears to be locked tight.";
+			if(actionType == "look ahead"){
+				if(map.openDoors[CELL_ID][FACE_FORWARD] == undefined){
+					return "You see a big metal door, it appears to be locked tight.";
+				}else{
+					return "You see a large metal door that is open.";
+				}
+			}
 			if(actionType == "look back")
 				return "There's nothing but a concrete wall.";
+			if(actionType == "look left"){
+				unstageAction("inspect");
+				return "There is a small barred window but it out of reach";
+			}
+			if(actionType == "look right"){
+				unstageAction("inspect");
+				return "There is a hairline crack in the wall, but that's it.";
+			}
 		}else if(roomLocDir[1] == FACE_FORWARD){
-			if(actionType == "inspect")
+			if(actionType == "inspect"){
 				return "There is some sort of circular opening near the handle of the door";
+			}
 			if(player.inspecting){
 				if(actionType == "think")
 					return "Maybe some sort of key goes here";
@@ -72,7 +93,7 @@ function getTextFrom(roomLocDir, actionType){
 					player.errorCount = 0;
 					player.question = "";
 					document.getElementById("action").placeholder = "What will you do?";
-					addNewAction("pickup");
+					stageAction("pickup");
 					return "A panel on the wall opened up and you can see a <span style='text-decoration: underline; font-weight: bold;'> key</span>!";
 				}
 				if(actionType == "incorrect"){
@@ -85,4 +106,6 @@ function getTextFrom(roomLocDir, actionType){
 			}
 		}
 	}
+	
+	/**** HALLWAY ****/
 }

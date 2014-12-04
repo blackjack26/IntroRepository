@@ -50,7 +50,6 @@ var map = {
 function changeRoom(){
 	for(var c = 0; c < map.connect.length; c++){
 		if(map.connect[roomNum][c] == direction){ //if there is a connection in the direction you are facing
-			map.openDoors[roomNum][c] = 1;
 			roomNum = c;
 			document.querySelector("#currRoom > p").textContent = map.locs[roomNum].name;
 			player.return(); //resets to the default
@@ -58,6 +57,16 @@ function changeRoom(){
 		}
 	}
 	alert("no room connections");
+}
+
+function openDoor(){
+	for(c in map.connect){
+		if(map.connect[roomNum][c] == direction){
+			map.openDoors[roomNum][c] = 1; //open door
+			changeDescrip("door");
+			stageAction("enter");
+		}
+	}
 }
 
 var roomNum = 0;

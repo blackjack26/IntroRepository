@@ -39,21 +39,33 @@ Player.prototype.think = function(){
 }
 
 Player.prototype.lookahead = function(){
-	changeDescrip("look ahead");
 	looking();
+	changeDescrip("look ahead");
 	direction = FACE_FORWARD;
 }
 
 Player.prototype.lookback = function(){
-	changeDescrip("look back");
 	looking();
+	changeDescrip("look back");
 	direction = FACE_BACKWARD;
+}
+
+Player.prototype.lookleft = function(){
+	looking();
+	changeDescrip("look left");
+	direction = FACE_LEFT;
+}
+
+Player.prototype.lookright = function(){
+	looking();
+	changeDescrip("look right");
+	direction = FACE_RIGHT;
 }
 
 function looking(){
 	removeActions(DEFAULT_ACTIONS);
-	addNewAction("inspect");
-	addNewAction("return");
+	stageAction("inspect");
+	stageAction("return");
 }
 
 Player.prototype.inspect = function(){
@@ -61,9 +73,9 @@ Player.prototype.inspect = function(){
 	this.inspecting = true;
 	removeAllActions();
 	specialInspectActions([roomNum, direction]);
-	addNewAction("return");
-	addNewAction("think");
-	addNewAction("punch");
+	stageAction("return");
+	stageAction("think");
+	stageAction("punch");
 }
 
 Player.prototype.return = function(){
@@ -76,6 +88,10 @@ Player.prototype.return = function(){
 
 Player.prototype.use = function(item){
 	itemUsedIn([roomNum,direction], item);
+}
+
+Player.prototype.enter = function(){
+	changeRoom();
 }
 
 Player.prototype.punch = function(){
@@ -203,8 +219,14 @@ function addItems(item){
 	inventory.appendChild(liElement);
 }
 
-function addNewAction(action){
+function stageAction(action){
 	newActions.push(action);
+}
+
+function unstageAction(action){
+	var index = newActions.indexOf(action);
+	if(index >= 0)
+		newActions.splice(index,1);
 }
 
 function addAction(action){
@@ -258,7 +280,7 @@ function gameStep(str){
 }
 
 function gameStart(){
-	name = prompt("What is your name?", "Don't make it a boring one");
+	name = prompt("What is your name?", "Jack");
 	
 	document.getElementById("descrip").textContent = name + ", " + map.locs[0].description;
 	var ENTER_KEY = 13;	

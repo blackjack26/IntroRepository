@@ -55,6 +55,7 @@ var map = {
 function changeRoom(){
 	for(var c = 0; c < map.connect.length; c++){
 		if(map.connect[roomNum][c] == direction){ //if there is a connection in the direction you are facing
+			moveIconInto(roomNum, c);
 			roomNum = c;
 			document.querySelector("#currRoom > p").textContent = map.locs[roomNum].name;
 			player.return(); //resets to the default
@@ -69,6 +70,7 @@ function openDoor(){
 		if(map.connect[roomNum][c] == direction){
 			map.openDoors[roomNum][c] = 1; //open door
 			changeDescrip("door");
+			addRoomToMap(c);
 			stageAction("enter");
 		}
 	}
@@ -89,9 +91,19 @@ function adjustDirectionsToOffset(){
 	player.directions.left = tempDirs[1];
 	player.directions.back = tempDirs[2];
 	player.directions.right = tempDirs[3];
-	for(i in tempDirs){
-		console.log(player.directions);
-	}
+	console.log(player.directions);
+}
+
+function moveIconInto(oldNum, newNum){
+	$("#room"+oldNum).removeClass("hasPlayer");
+	$("#player").remove();
+	$("#room"+newNum).addClass("hasPlayer");
+	$(".hasPlayer").append("<div id='player'></div>")
+	addRoomToMap(newNum);
+}
+
+function addRoomToMap(num){
+	$("#room"+num).show();
 }
 
 var roomNum = 0;

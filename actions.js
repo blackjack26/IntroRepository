@@ -32,6 +32,8 @@ function specialInspectActions(roomLocDir){
 	}else if(roomLocDir[0] == HALLWAY_ID){
 		if(roomLocDir[1] == WEST){
 			newActions = ["enter"];
+		}else if(roomLocDir[1] == SOUTH){
+			newActions = ["enter"];
 		}
 	}
 }
@@ -51,8 +53,6 @@ function itemUsedIn(roomLocDir, item){
 }
 
 function getTextFrom(roomLocDir, actionType){
-	console.log("Location: " + roomLocDir[0] + ", Direction: " + roomLocDir[1]);
-
 	if(actionType == "default"){
 		return map.locs[roomLocDir[0]].description;
 	}else if(actionType == "door"){
@@ -64,22 +64,24 @@ function getTextFrom(roomLocDir, actionType){
 		if(roomLocDir[1] == NEUTRAL){
 			if(actionType == "think")
 				return "How did I even get in this place? I don't remember anything.";
-			if(actionType == "look ahead"){
-				if(map.openDoors[CELL_ID][NORTH] == undefined){
-					return "You see a big metal door, it appears to be locked tight.";
-				}else{
-					return "You see a large metal door that is open.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					if(map.openDoors[CELL_ID][NORTH] == undefined){
+						return "You see a big metal door, it appears to be locked tight.";
+					}else{
+						return "You see a large metal door that is open.";
+					}
 				}
-			}
-			if(actionType == "look back")
-				return "There's nothing but a concrete wall.";
-			if(actionType == "look left"){
-				unstageAction("inspect");
-				return "There is a small barred window but it out of reach";
-			}
-			if(actionType == "look right"){
-				unstageAction("inspect");
-				return "There is a hairline crack in the wall, but that's it.";
+				if(player.direction == SOUTH)
+					return "There's nothing but a concrete wall.";
+				if(player.direction == WEST){
+					unstageAction("inspect");
+					return "There is a small barred window but it out of reach";
+				}
+				if(player.direction == EAST){
+					unstageAction("inspect");
+					return "There is a hairline crack in the wall, but that's it.";
+				}
 			}
 		}else if(roomLocDir[1] == NORTH){
 			if(actionType == "inspect"){

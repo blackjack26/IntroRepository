@@ -13,6 +13,7 @@ function Player(name){
 		back: 3,
 		right: 4
 	}
+	this.direction = 0;
 }
 Player.prototype.pickup = function(item){
 	for(i in map.locs[roomNum].items){
@@ -45,33 +46,49 @@ Player.prototype.think = function(){
 }
 
 Player.prototype.lookahead = function(){
+	this.direction = this.directions.forward;
 	looking();
 	changeDescrip("look ahead");
-	direction = this.directions.forward;
+	direction = this.direction;
 }
 
 Player.prototype.lookback = function(){
+	this.direction = this.directions.back;
 	looking();
 	changeDescrip("look back");
-	direction = this.directions.back;
+	direction = this.direction;
 }
 
 Player.prototype.lookleft = function(){
+	this.direction = this.directions.left;
 	looking();
 	changeDescrip("look left");
-	direction = this.directions.left;
+	direction = this.direction;
 }
 
 Player.prototype.lookright = function(){
+	this.direction = this.directions.right;
 	looking();
 	changeDescrip("look right");
-	direction = this.directions.right;
+	direction = this.direction;
 }
 
 function looking(){
 	removeActions(DEFAULT_ACTIONS);
+	changePlayerIcon(player.direction);
 	stageAction("inspect");
 	stageAction("return");
+}
+
+function changePlayerIcon(dir){
+	$('#player').removeClass();
+	switch(dir){
+		case NORTH: $('#player').addClass('arrow-up'); break;
+		case WEST: $('#player').addClass('arrow-left'); break;
+		case SOUTH: $('#player').addClass('arrow-down'); break;
+		case EAST: $('#player').addClass('arrow-right'); break;
+		default: return;
+	}
 }
 
 Player.prototype.inspect = function(){
@@ -90,6 +107,7 @@ Player.prototype.return = function(){
 	this.inspecting = false;
 	removeAllActions();
 	changeDescrip("default");
+	changePlayerIcon(player.directions.forward);
 }
 
 Player.prototype.use = function(item){

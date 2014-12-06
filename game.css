@@ -140,8 +140,8 @@ li{
 }
 
 .map{
-	width: 100px;
-	height: 100px;
+	width: 101px;
+	height: 101px;
 	margin-left: -100px;
 	margin-top: -100px;
 }
@@ -171,7 +171,7 @@ li{
 
 .emptycell{
 	margin-top: 60px;
-	margin-left: 20px;
+	margin-left: 19px;
 }
 
 .hallway{
@@ -181,7 +181,7 @@ li{
 
 #player{
 	margin-left: 5px;
-	margin-top: 7px;
+	margin-top: 5px;
 	width: 11px; 
 	height: 11px; 
 	background-image: url("player.png");

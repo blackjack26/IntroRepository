@@ -30,10 +30,11 @@ function specialInspectActions(roomLocDir){
 			newActions = ["insert finger"];
 		}
 	}else if(roomLocDir[0] == HALLWAY_ID){
-		if(roomLocDir[1] == WEST){
-			newActions = ["enter"];
-		}else if(roomLocDir[1] == SOUTH){
-			newActions = ["enter"];
+		if(roomLocDir[1] == WEST){	
+			if(map.openDoors[HALLWAY_ID][WEST] == 1)
+				newActions = ["enter"];
+			else
+				newActions = ["look through"];
 		}
 	}
 }
@@ -124,15 +125,43 @@ function getTextFrom(roomLocDir, actionType){
 				}
 			}
 		}
-	}else if(roomLocDir[0] == EMPTY_CELL_ID){
-		if(roomLocDir[1] == NORTH){
-			if(actionType == "inspect")
-				return "LOOKING NORTH";
-		}else if(roomLocDir[1] == WEST){
-			if(actionType == "inspect")
-				return "LOOKING WEST";
-		}
 	}
 	
 	/**** HALLWAY ****/
+	else if(roomLocDir[0] == HALLWAY_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "Are there more people like me? Am I the only one?";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					return "There looks like there is another hallway extending from this one.";
+				}
+				if(player.direction == SOUTH){
+					unstageAction("inspect");
+					stageAction("enter");
+					return "There is an open door to your holding cell.";
+				}
+				if(player.direction == WEST){
+					return "There are a couple of doors like yours. They all appear to be locked too.";
+				}
+				if(player.direction == EAST){
+					return "You see graffiti on the concrete wall, some of it seems to make out a word.";
+				}
+			}
+		}else if(roomLocDir[1] == NORTH){
+			
+		}else if(roomLocDir[1] == WEST){
+			if(actionType == "inspect")
+				return "One of the doors seems ajar, maybe someone was in there.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Maybe I can find something if I get inside the cell.";
+				if(actionType == "punch"){
+					openDoor();
+					return "The door broke off its rusted hinges and fell onto the floor.";
+				}if(actionType == "look through")
+					return "The cell is dark and there is not much visible to the eye.";
+			}
+		}
+	}
 }

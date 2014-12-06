@@ -49,7 +49,7 @@ var connections =
 var map = {
 	locs: locations,
 	connect: connections,
-	openDoors: [[]],
+	openDoors: [[ 0, 0, 0],[ 0, 0, 0],[ 0, 0, 0]]
 }
 
 function changeRoom(){
@@ -99,6 +99,7 @@ function moveIconInto(oldNum, newNum){
 	$("#player").remove();
 	$("#room"+newNum).addClass("hasPlayer");
 	$(".hasPlayer").append("<div id='player'></div>")
+	changePlayerIcon(player.directions.forward);
 	addRoomToMap(newNum);
 }
 

@@ -39,7 +39,6 @@ var locations = [
 					new Location("Hallway", "You are at the other end of the hallway", []),
 				];
 
-//-1: Look back
 // 0: No Connection
 // 1: Look ahead
 // 2: Left
@@ -49,7 +48,7 @@ var connections =
 	[[ 0, 1, 0, 0],	//Cell
 	 [ 3, 0, 2, 1],	//Hallway	
 	 [ 0, 4, 0, 0], //Empty Cell
-	 [ 0,-1, 0, 0]];	//Hallway2
+	 [ 0, 3, 0, 0]];//Hallway2
 	 
 function zeros(dimensions){
 	var array = [];

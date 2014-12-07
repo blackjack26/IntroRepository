@@ -21,8 +21,12 @@ body{
 	background-color: #222;
 }
 
-header, main, footer, aside {
+main, footer, aside {
     position: fixed;
+}
+
+header{
+	position: relative;
 }
 
 header, footer {
@@ -84,7 +88,7 @@ output {
 	text-align: justify;
 }
 
-output, input {
+output, input, select, button{
     font-size: 200%;
     font-family: Tahoma, Geneva, sans-serif;
 	transition: all 0.1s;
@@ -92,11 +96,21 @@ output, input {
 	background-color: #ccc;
 }
 
-input{
+input, select, button{
 	font-family: 'Gloria Hallelujah', cursive;
 }
 
-input:focus{
+button {
+	background-color: #2D5;
+	border-color: #183;
+	border-radius:15px; 
+	-moz-border-radius:15px; 
+	-webkit-border-radius:15px;
+	padding: 0 15px;
+	font-size: 175%;
+}
+
+input:focus, select:focus , button:focus{
 	-webkit-box-shadow: 0px 0px 15px 0px LimeGreen;
 	-moz-box-shadow: 0px 0px 15px LimeGreen;
 	box-shadow: 0px 0px 15px 0px LimeGreen;
@@ -180,7 +194,7 @@ li{
 }
 
 .hallway2{
-	margin-top: 40px;
+	margin-top: 39px;
 	margin-left: 40px;
 }
 
@@ -204,4 +218,8 @@ li{
 }
 .arrow-right{
 	transform: rotate(90deg);
+}
+
+#options{
+	position: relative;
 }

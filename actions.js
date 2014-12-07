@@ -52,6 +52,12 @@ function specialInspectActions(roomLocDir){
 			newActions = ["pickup"];
 		}
 	}
+	/**** Hallway2 ****/
+	else if(roomLocDir[0] == HALLWAY2_ID){
+		if(roomLocDir[1] == SOUTH){
+			newActions = ["walk"];
+		}
+	}
 }
 
 function itemUsedIn(roomLocDir, item){
@@ -279,6 +285,48 @@ function getTextFrom(roomLocDir, actionType){
 					return "Who is inmate #115, and what is he guilty of?";
 				if(actionType == "punch")
 					return "You're muscles contracted and prevented you from punching. Why do you punch so much?";
+			}
+		}
+	}
+	
+	/**** Hallway2 ****/
+	else if(roomLocDir[0] == HALLWAY2_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "Where did everyone go. I'm starting to feel like I'm the only one here.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					return "Looks like the warden's office or some high official.";
+				}
+				if(player.direction == SOUTH){
+					return "You see the other end of the hallway where your cell is.";
+				}
+				if(player.direction == WEST){
+					return "There looks to be a door to outside this way.";
+				}
+				if(player.direction == EAST){
+					return "There is another hallway extending with more cells like yours.";
+				}
+			}
+		}else if(roomLocDir[1] == SOUTH){
+			if(actionType == "inspect"){
+				return "There is a faint laser across your vision from wall to wall";
+			}
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Did I learn anything from this laser last time?";
+				if(actionType == "punch")
+					return "You swung in the air and looked like a fool.";
+				if(actionType == "walk"){
+					if(player.has("sunglasses")){
+						removeAction("walk");
+						stageAction("enter");
+						return "There was a flash but the sunglasses prevented any blindness.";
+					}else{
+						blinded();
+						return "There was a bright flash and you are blinded for a little and you cannot move forward";
+					}
+				}					
 			}
 		}
 	}

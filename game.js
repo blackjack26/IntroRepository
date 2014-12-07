@@ -341,7 +341,10 @@ function gameStep(str){
 }
 
 function gameStart(){
-	name = prompt("What is your name?", "Jack");
+	$("#gameScreen").show();
+	$("#options").hide();
+	name = document.querySelector("#options > #name").value;
+	hat = document.querySelector("#select").value;
 	
 	document.getElementById("descrip").textContent = name + ", " + map.locs[0].description;
 	var ENTER_KEY = 13;	
@@ -357,6 +360,17 @@ function gameStart(){
 	});
 }
 
+function getOptions(){
+	$("#startGame").click(function(){
+		if(document.querySelector("#name").value != undefined && $("#select").val() != "null")
+			gameStart();
+		else
+			alert("meh");
+	});
+}
+
 var player = new Player("Jack");
-window.onload = gameStart;
+$("#gameScreen").hide();
+window.onload = getOptions;
 var name = "";
+var hat = "";

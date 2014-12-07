@@ -15,48 +15,60 @@
 	<header>
         <h1> Cognitive Release </h1>
     </header>
-
-    <main id="game">
-    
-        <output id="scene">
-            <p id="descrip">
-                What you see is not what it is. The cake is a lie, but the fact that you are trapped in a room, that's real. Well, have fun getting out!
-            </p>
-		</output>
-
-        <section>
-            <input id="action" class="rounded" type="text" placeholder="What will you do?"/>
-        </section>
-		<div id="currRoom">
-			<h1> Current Room </h1>
-			<p id="room"> Cell </p>
-		</div>
+	<div id="options">
+		<h2>Name:</h2><input id="name" type="textbox" class="rounded" placeholder="Enter your name"/>
+		<h2>Starting Item:</h2>
+		<select id="select" class="rounded">
+			<option value="null">Choose an item</option>
+			<option value="Fedora">Fedora</option>
+			<option value="Top Hat">Top Hat</option>
+			<option value="Sports Hat">Sports Hat</option>
+		</select>
+		</br></br>
+		<button id="startGame">Begin</button>
+	</div>
+	<div id="gameScreen">
+		<main id="game">
 		
-		<div class="map">
-			<div id="room0" class="room cellroom hasPlayer show">
-				<div id="player"></div>
+			<output id="scene">
+				<p id="descrip">
+					What you see is not what it is. The cake is a lie, but the fact that you are trapped in a room, that's real. Well, have fun getting out!
+				</p>
+			</output>
+
+			<section>
+				<input id="action" class="rounded" type="text" placeholder="What will you do?"/>
+			</section>
+			<div id="currRoom">
+				<h1> Current Room </h1>
+				<p id="room"> Cell </p>
 			</div>
-			<div id="room1" class="room hallway"></div>
-			<div id="room2" class="room emptycell"></div>
-			<div id="room3" class="room hallway2"></div>
-		</div>
-		<p style="float:left; margin-left: -65px;">Map</p>
-		
-		<p style="float:right; color: red;" id="effect"></p>
-	</main>
+			
+			<div class="map">
+				<div id="room0" class="room cellroom hasPlayer show">
+					<div id="player"></div>
+				</div>
+				<div id="room1" class="room hallway"></div>
+				<div id="room2" class="room emptycell"></div>
+				<div id="room3" class="room hallway2"></div>
+			</div>
+			<p style="float:left; margin-left: -65px;">Map</p>
+			
+			<p style="float:right; color: red;" id="effect"></p>
+		</main>
 
-    <aside id="inventory">
-        <h1> Inventory </h1>
-        <ul>
-        </ul>
-    </aside>
+		<aside id="inventory">
+			<h1> Inventory </h1>
+			<ul>
+			</ul>
+		</aside>
 
-    <aside id="help">
-        <h1> Available Actions </h1>
-        <ul>
-        </ul>
-    </aside>
-	
+		<aside id="help">
+			<h1> Available Actions </h1>
+			<ul>
+			</ul>
+		</aside>
+	</div>
     <footer>
         Copyright &#169; 2014 Jack Grzechowiak. All rights reserved.
     </footer>

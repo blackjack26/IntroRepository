@@ -131,6 +131,10 @@ Player.prototype.insertfinger = function(){
 	changeDescrip("insert finger");
 }
 
+Player.prototype.walk = function(){
+	changeDescrip("walk");
+}
+
 function changeDescrip(type){
 	var descrip = document.getElementById("descrip");
 	descrip.innerHTML = getTextFrom([roomNum,direction], type);

@@ -35,6 +35,11 @@ function specialInspectActions(roomLocDir){
 				newActions = ["enter"];
 			else
 				newActions = ["look through"];
+		}else if(roomLocDir[1] == NORTH){
+			if(map.openDoors[HALLWAY_ID][NORTH] == 1)
+				newActions = ["enter"];
+			else
+				newActions = ["walk"];
 		}
 	}
 }
@@ -149,7 +154,19 @@ function getTextFrom(roomLocDir, actionType){
 				}
 			}
 		}else if(roomLocDir[1] == NORTH){
-			
+			if(actionType == "inspect"){
+				return "There is a faint laser across your vision from wall to wall";
+			}
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Maybe walking in front of the laser isn't a good idea";
+				if(actionType == "punch")
+					return "You swung in the air and looked like a fool.";
+				if(actionType == "walk"){
+					blinded();
+					return "There was a bright flash and you are blinded for a little";
+				}					
+			}
 		}else if(roomLocDir[1] == WEST){
 			if(actionType == "inspect")
 				return "One of the doors seems ajar, maybe someone was in there.";
@@ -159,7 +176,8 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "punch"){
 					openDoor();
 					return "The door broke off its rusted hinges and fell onto the floor.";
-				}if(actionType == "look through")
+				}
+				if(actionType == "look through")
 					return "The cell is dark and there is not much visible to the eye.";
 			}
 		}

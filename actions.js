@@ -29,7 +29,9 @@ function specialInspectActions(roomLocDir){
 		}else if(roomLocDir[1] == SOUTH && player.items.indexOf("key") < 0){
 			newActions = ["insert finger"];
 		}
-	}else if(roomLocDir[0] == HALLWAY_ID){
+	}
+	/**** Hallway ****/
+	else if(roomLocDir[0] == HALLWAY_ID){
 		if(roomLocDir[1] == WEST){	
 			if(map.openDoors[HALLWAY_ID][WEST] == 1)
 				newActions = ["enter"];
@@ -40,6 +42,14 @@ function specialInspectActions(roomLocDir){
 				newActions = ["enter"];
 			else
 				newActions = ["walk"];
+		}
+	}
+	/**** Empty Cell ****/
+	else if(roomLocDir[0] == EMPTY_CELL_ID){
+		if(roomLocDir[1] == WEST){
+			newActions = ["jump"];
+		}else if(roomLocDir[1] == SOUTH){
+			newActions = ["pickup"];
 		}
 	}
 }
@@ -163,8 +173,14 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "punch")
 					return "You swung in the air and looked like a fool.";
 				if(actionType == "walk"){
-					blinded();
-					return "There was a bright flash and you are blinded for a little";
+					if(player.has("sunglasses")){
+						openDoor();
+						removeAction("walk");
+						return "There was a flash but the sunglasses prevented any blindness.";
+					}else{
+						blinded();
+						return "There was a bright flash and you are blinded for a little and you cannot move forward";
+					}
 				}					
 			}
 		}else if(roomLocDir[1] == WEST){
@@ -179,6 +195,90 @@ function getTextFrom(roomLocDir, actionType){
 				}
 				if(actionType == "look through")
 					return "The cell is dark and there is not much visible to the eye.";
+			}
+		}else if(roomLocDir[1] == EAST){
+			if(actionType == "inspect")
+				return "The writing spells out the numbers 1, 1, and 5";
+			if(player.inspecting){
+				if(actionType == "think"){
+					if(player.has("paper"))
+						return "I wonder who this #115 guy is.";
+					else
+						return "What do these numbers mean?";
+				}
+				if(actionType == "punch"){
+					player.actions.push("pickup");
+					return "You broke some of the wall and a paint chip fell on the floor";
+				}
+			}
+		}
+	}
+	
+	/**** EMPTY CELL ****/
+	else if(roomLocDir[0] == EMPTY_CELL_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "Maybe there are some items in here I could use.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					return "There is a mirror on the wall above a sink.";
+				}
+				if(player.direction == SOUTH){
+					return "You see a table-like structure that has some papers on it.";
+				}
+				if(player.direction == WEST){
+					return "There is a window up high like the one in your cell. Sadly, you can't reach it.";
+				}
+				if(player.direction == EAST){
+					unstageAction("inspect");
+					stageAction("enter");
+					return "The door you just destroyed is crumbled on the ground.";
+				}
+			}
+		}else if(roomLocDir[1] == NORTH){
+			if(actionType == "inspect"){
+				if(hasEventOccured("mirror broke"))
+					return "You see a broke mirror and a sad reflection of something that use to be happy.";
+				else	
+					return "You see a beautiful person named " + name + " staring back at you in the mirror.";
+			}
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Do I look fat in this jump suit? Nahhh must be in my head.";
+				if(actionType == "punch"){
+					if(hasEventOccured("mirror broke"))
+						return "You already broke the mirror, now you are just cutting your hand more.";
+					else{
+						addEvent("mirror broke");
+						return "You broke the mirror and your fist is bleeding. That beautiful person is no longer visible in the mirror.";
+					}
+				}					
+			}
+		}else if(roomLocDir[1] == WEST){
+			if(actionType == "inspect")
+				return "The window...it's so...high";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Why am I still looking over here, there is nothing.";
+				if(actionType == "punch")
+					return "Really, do you just punch anything??";
+				if(actionType == "jump"){
+					if(hasEventOccured("jumped"))
+						return "I can't believe you actually thought you'd reach again. You can't jump very high";
+					else{
+						addEvent("jumped");
+						return "HA! What a febel attempt, maybe if you try again you'll get it";
+					}
+				}
+			}
+		}else if(roomLocDir[1] == SOUTH){
+			if(actionType == "inspect")
+				return "You see a paper with the writing \"It was you inmate #115 who did it. You're guilty.\" Also there are some sunglasses on the table too.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Who is inmate #115, and what is he guilty of?";
+				if(actionType == "punch")
+					return "You're muscles contracted and prevented you from punching. Why do you punch so much?";
 			}
 		}
 	}

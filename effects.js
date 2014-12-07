@@ -10,6 +10,12 @@ function blinded(){
 			clearInterval(timer);
 		}
 	}, 1000);
-	setTimeout(function(){ $(".map").show() }, blindTime*1000);
-	
+	setTimeout(function(){ 
+			$(".map").show();
+			$("#effect").hide();
+		}, blindTime*1000);	
+}
+
+function setWarningText(text){
+	$("#effect").text(text);
 }

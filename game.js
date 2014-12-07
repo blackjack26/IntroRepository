@@ -14,6 +14,7 @@ function Player(name){
 		right: 4
 	}
 	this.direction = 0;
+	this.cheating = false;
 }
 Player.prototype.pickup = function(item){
 	for(i in map.locs[roomNum].items){
@@ -39,6 +40,10 @@ Player.prototype.drop = function(item){
 			}
 		}
 	}
+}
+
+Player.prototype.jump = function(){
+	changeDescrip("jump");
 }
 
 Player.prototype.think = function(){
@@ -133,6 +138,18 @@ Player.prototype.insertfinger = function(){
 
 Player.prototype.walk = function(){
 	changeDescrip("walk");
+}
+
+Player.prototype.has = function(item){
+	return this.items.indexOf(item) >= 0;
+}
+
+Player.prototype.givemeitall = function(){
+	var items = ["sunglasses", "key", "paper"];
+	for(var i in items){
+		this.items.push(items[i]);
+		newItems.push(items[i]);
+	}
 }
 
 function changeDescrip(type){
@@ -268,7 +285,10 @@ function addAction(action){
 
 function interpret(str){
 	var obj = {};
-	if(str.indexOf("look") != 0 && str.indexOf("insert") != 0 && player.question == ""){
+	if(str.indexOf("look") != 0 && str.indexOf("insert") != 0 &&
+			player.question == "" && str.indexOf("I solemnly") != 0 &&
+			str.indexOf("Mischief")!=0)
+	{
 		var strArray = str.split(" ");
 		obj.action = strArray[0];
 		strArray.shift();
@@ -283,6 +303,18 @@ function interpret(str){
 function execute(obj){
 	if(player.question != ""){
 		checkAnswer(obj.action);
+	}else if(obj.action == "I solemnly swear I'm up to no good"){
+		setWarningText("Cheater cheater pumpkin eater");
+		player.cheating = true;
+	}else if(obj.action == "Mischief managed"){
+		setWarningText("");
+		player.cheating = false;
+	}else if(player.cheating){
+		if(obj.action.indexOf("look") == 0 || obj.action.indexOf("insert") == 0){
+			player[obj.action.split(" ").join("")]();
+		}else{
+			player[obj.action](obj.object);
+		}
 	}else if(player.actions.indexOf(obj.action) >= 0){
 		if(obj.action.indexOf("look") == 0 || obj.action.indexOf("insert") == 0){
 			player[obj.action.split(" ").join("")]();

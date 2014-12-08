@@ -188,18 +188,20 @@ li{
 }
 
 .emptycell{
-	margin-top: 60px;
+	margin-top: 59px;
 	margin-left: 19px;
 }
 
 .hallway{
 	margin-top: 60px;
 	margin-left: 40px;
+	border-top: 0px;
 }
 
 .hallway2{
 	margin-top: 39px;
 	margin-left: 40px;
+	border-bottom: 0px;
 }
 
 .courtyard{
@@ -208,13 +210,13 @@ li{
 }
 
 .warden{
-	margin-top: 20px;
+	margin-top: 18px;
 	margin-left: 40px;
 }
 
 .hallway3{
 	margin-top: 39px;
-	margin-left: 60px;
+	margin-left: 61px;
 }
 
 #player{

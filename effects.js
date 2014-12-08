@@ -21,6 +21,19 @@ function blinded(){
 function alarm(){
 	document.getElementById("action").disabled = true;
 	$("#action").addClass("disabled");
+	setTimeout(function(){
+		if(hat == "Fedora"){
+			openDoor();
+		}else if(hat == "Top Hat"){
+			openDistDoor(HALLWAY2_ID, NORTH);
+		}else if(hat == "Sports Hat"){
+			openDistDoor(HALLWAY2_ID, WEST);
+		}
+		changeDescrip(hat);
+		$("#action").removeClass("disabled");
+		document.getElementById("action").disabled = false;
+	}, 6000);
+	
 }
 
 function setWarningText(text){

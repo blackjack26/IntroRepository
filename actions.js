@@ -349,6 +349,12 @@ function getTextFrom(roomLocDir, actionType){
 					alarm();
 					return "Your hand got stuck in the gates and an alarm began to sound";
 				}
+				if(actionType == "Fedora")
+					return "Fedora man";
+				if(actionType == "Top Hat")
+					return "Top Hat man";
+				if(actionType == "Sports Hat")
+					return "Sports Hat man";
 			}
 		}
 	}

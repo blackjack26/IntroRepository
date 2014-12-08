@@ -2,6 +2,9 @@ var CELL_ID = 0,
 	HALLWAY_ID = 1;
 	EMPTY_CELL_ID = 2;
 	HALLWAY2_ID = 3;
+	COURTYARD_ID = 4;
+	WARDEN_ID = 5;
+	HALLWAY3_ID = 6;
 
 var NEUTRAL = 0,
 	NORTH = 1,
@@ -95,6 +98,16 @@ function openDoor(){
 			changeDescrip("door");
 			addRoomToMap(c);
 			stageAction("enter");
+		}
+	}
+}
+
+function openDistDoor(room, dir){
+	for(c in map.connect){
+		if(map.connect[room][c] == dir){
+			map.openDoors[room][c] = 1; //open door
+			changeDescrip("door");
+			addRoomToMap(c);
 		}
 	}
 }

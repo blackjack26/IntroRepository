@@ -328,6 +328,28 @@ function getTextFrom(roomLocDir, actionType){
 					}
 				}					
 			}
+		}else if(roomLocDir[1] == NORTH){
+			if(actionType == "inspect"){
+				return "It is a glass door and the light seems to be off inside";
+			}
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Maybe I can try and get inside of this office.";
+				if(actionType == "punch")
+					return "The glass didn't budge. It must be a lot thicker than it seems";
+			}
+		}else if(roomLocDir[1] == EAST){
+			if(actionType == "inspect")
+				return "The gate is down and the hallway is closed off.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "I wonder why they closed off this hallway, maybe there is a way to get down there.";
+				if(actionType == "punch"){
+					document.getElementById("action").placeholder = "";
+					alarm();
+					return "Your hand got stuck in the gates and an alarm began to sound";
+				}
+			}
 		}
 	}
 }

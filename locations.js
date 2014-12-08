@@ -37,6 +37,9 @@ var locations = [
 					new Location("Hallway", "You are in a long hallway with many doors on both sides", ["paint chip"]),
 					new Location("Empty Cell", "You are in another cell, it seems as though no one has been here for a while", ["sunglasses", "paper"]),
 					new Location("Hallway", "You are at the other end of the hallway", []),
+					new Location("Courtyard", "You are in the courtyard, there is a sports field that is worn away in the grass.", []),
+					new Location("Warden's Office", "You are in the warden's office, beware if they catch you in there.", []),
+					new Location("Hallway", "You are in another hallway, but not as long.", []),
 				];
 
 // 0: No Connection
@@ -45,10 +48,13 @@ var locations = [
 // 3: Look back
 // 4: Right
 var connections = 
-	[[ 0, 1, 0, 0],	//Cell
-	 [ 3, 0, 2, 1],	//Hallway	
-	 [ 0, 4, 0, 0], //Empty Cell
-	 [ 0, 3, 0, 0]];//Hallway2
+	[[0,1,0,0,0,0,0],	
+	 [3,0,2,1,0,0,0],	
+	 [0,4,0,0,0,0,0], 
+	 [0,3,0,0,2,1,4],
+	 [0,0,0,4,0,0,0],
+	 [0,0,0,3,0,0,0],
+	 [0,0,0,2,0,0,0]];
 	 
 function zeros(dimensions){
 	var array = [];

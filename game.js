@@ -362,10 +362,20 @@ function gameStart(){
 
 function getOptions(){
 	$("#startGame").click(function(){
-		if(document.querySelector("#name").value != undefined && $("#select").val() != "null")
+		if(document.querySelector("#name").value != "" && $("#select").val() != "null")
 			gameStart();
-		else
-			alert("meh");
+		else{
+			if(document.querySelector("#name").value == ""){
+				$("#name").addClass("empty");
+			}else if(document.querySelector("#name").value != undefined){
+				$("#name").removeClass("empty");
+			}
+			if($("#select").val() == "null"){
+				$("#select").addClass("empty");
+			}else if($("#select").val() != "null"){
+				$("#select").removeClass("empty");
+			}
+		}
 	});
 }
 

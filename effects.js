@@ -37,3 +37,18 @@ function alarm(){
 function setWarningText(text){
 	$("#effect").text(text);
 }
+
+function rotateMap(degrees){
+	var currRoomDiv = $("#player").parent();
+	var top = parseInt(currRoomDiv.css("margin-top").substr(0, currRoomDiv.css("margin-top").indexOf("px")))+10;
+	var left = parseInt(currRoomDiv.css("margin-left").substr(0, currRoomDiv.css("margin-left").indexOf("px")))+10;
+	
+	
+	var map = $("#player").parent().parent();
+	$(map).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
+                 '-moz-transform' : 'rotate('+ degrees +'deg)',
+                 '-ms-transform' : 'rotate('+ degrees +'deg)',
+                 'transform' : 'rotate('+ degrees +'deg)',
+				 'transition': '1s transform',
+				 'transform-origin': left + "% " + top + "%"});
+}

@@ -88,10 +88,10 @@ function looking(){
 function changePlayerIcon(dir){
 	$('#player').removeClass();
 	switch(dir){
-		case NORTH: $('#player').addClass('arrow-up'); break;
-		case WEST: $('#player').addClass('arrow-left'); break;
-		case SOUTH: $('#player').addClass('arrow-down'); break;
-		case EAST: $('#player').addClass('arrow-right'); break;
+		case NORTH: rotateMap(0); $('#player').addClass('arrow-up'); break;
+		case WEST: rotateMap(90); $('#player').addClass('arrow-left'); break;
+		case SOUTH: rotateMap(-180); $('#player').addClass('arrow-down'); break;
+		case EAST: rotateMap(-90); $('#player').addClass('arrow-right'); break;
 		default: return;
 	}
 }

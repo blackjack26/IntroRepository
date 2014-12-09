@@ -20,7 +20,7 @@ function specialInspectActions(roomLocDir){
 	/**** Cell ****/
 	if(roomLocDir[0] == CELL_ID){
 		if(roomLocDir[1] == NORTH){
-			if(map.openDoors[CELL_ID][NORTH] == 1)
+			if(map.openDoors[CELL_ID][HALLWAY_ID] == 1)
 				newActions = ["enter"];
 			else
 				newActions = ["look through"];
@@ -33,12 +33,12 @@ function specialInspectActions(roomLocDir){
 	/**** Hallway ****/
 	else if(roomLocDir[0] == HALLWAY_ID){
 		if(roomLocDir[1] == WEST){	
-			if(map.openDoors[HALLWAY_ID][WEST] == 1)
+			if(map.openDoors[HALLWAY_ID][EMPTY_CELL_ID] == 1)
 				newActions = ["enter"];
 			else
 				newActions = ["look through"];
 		}else if(roomLocDir[1] == NORTH){
-			if(map.openDoors[HALLWAY_ID][NORTH] == 1)
+			if(map.openDoors[HALLWAY_ID][HALLWAY2_ID] == 1)
 				newActions = ["enter"];
 			else
 				newActions = ["walk"];
@@ -56,6 +56,9 @@ function specialInspectActions(roomLocDir){
 	else if(roomLocDir[0] == HALLWAY2_ID){
 		if(roomLocDir[1] == SOUTH){
 			newActions = ["walk"];
+		}else if(roomLocDir[1] == NORTH){
+			if(map.openDoors[HALLWAY2_ID][WARDEN_ID] == 1)
+				newActions = ["enter"];
 		}
 	}
 }
@@ -350,11 +353,11 @@ function getTextFrom(roomLocDir, actionType){
 					return "Your hand got stuck in the gates and an alarm began to sound";
 				}
 				if(actionType == "Fedora")
-					return "Fedora man";
+					return "A suave man came up to you and opened the gate you were stuck on. The alarm stopped and the man left.";
 				if(actionType == "Top Hat")
-					return "Top Hat man";
+					return "A fancy man came up to you and unlocked the Warden's office so you were to meet with him about bonds. The alarm stopped and the man left.";
 				if(actionType == "Sports Hat")
-					return "Sports Hat man";
+					return "A referee came up to you and unlocked the door to the sports field in the courtyard. The alarm stopped and the man left.";
 			}
 		}
 	}

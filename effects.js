@@ -57,6 +57,13 @@ function rotateMap(degrees){
                  'transform' : 'rotate('+ degrees +'deg)',
 				 'transition': '1s transform',
 				 'transform-origin': "50% 50%"});
+				 
+	$(".compass > p").css({'-webkit-transform' : 'rotate('+ -degrees +'deg)',
+                 '-moz-transform' : 'rotate('+ -degrees +'deg)',
+                 '-ms-transform' : 'rotate('+ -degrees +'deg)',
+                 'transform' : 'rotate('+ -degrees +'deg)',
+				 'transition': '1s transform',
+				 'transform-origin': "50% 50%"});
 }
 
 function adjustMap(){

@@ -247,6 +247,37 @@ li{
 	z-index: 999;
 }
 
+.compass{
+	width: 101px;
+	height: 101px;
+	position: absolute;
+	z-index: 1;
+}
+.compass p{
+	position: absolute;
+	color: #F55;
+	margin: 0px;
+	text-shadow: 0px 1px 1px rgba(0, 0, 0, 1);
+	font-size: 12px;
+	font-weight: bold;
+}
+.compass #north{
+	margin-left: 46px;
+	margin-top: -4px;
+}
+.compass #east{
+	margin-left: 93px;
+	margin-top: 42px;
+}
+.compass #south{
+	margin-top: 86px;
+	margin-left: 46px;
+}
+.compass #west{
+	margin-left: 0px;
+	margin-top: 42px;
+}
+
 .arrow-up{
 	transform: rotate(0deg);
 }

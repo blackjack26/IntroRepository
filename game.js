@@ -89,7 +89,7 @@ function changePlayerIcon(dir){
 	switch(dir){
 		case NORTH: rotateMap(0); break;
 		case WEST: rotateMap(90); break;
-		case SOUTH: rotateMap(-180); break;
+		case SOUTH: (player.directions.right == 3) ? rotateMap(-180) : rotateMap(180); break;
 		case EAST: rotateMap(-90); break;
 		default: return;
 	}

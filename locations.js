@@ -12,7 +12,6 @@ var NEUTRAL = 0,
 	SOUTH = 3,
 	EAST = 4;
 
-
 	
 var DEFAULT_ACTIONS = ["look ahead", "look back", "look left", "look right", "think"];
 

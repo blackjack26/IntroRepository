@@ -82,6 +82,7 @@ function changeRoom(){
 	for(var c = 0; c < map.connect.length; c++){
 		if(map.connect[roomNum][c] == direction){ //if there is a connection in the direction you are facing
 			moveIconInto(roomNum, c);
+			adjustMap();
 			roomNum = c;
 			document.querySelector("#currRoom > p").textContent = map.locs[roomNum].name;
 			player.return(); //resets to the default
@@ -132,10 +133,7 @@ function adjustDirectionsToOffset(){
 
 function moveIconInto(oldNum, newNum){
 	$("#room"+oldNum).removeClass("hasPlayer");
-	$("#player").remove();
 	$("#room"+newNum).addClass("hasPlayer");
-	$(".hasPlayer").append("<div id='player'></div>")
-	changePlayerIcon(player.directions.forward);
 	addRoomToMap(newNum);
 }
 

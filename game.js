@@ -86,12 +86,11 @@ function looking(){
 }
 
 function changePlayerIcon(dir){
-	$('#player').removeClass();
 	switch(dir){
-		case NORTH: rotateMap(0); $('#player').addClass('arrow-up'); break;
-		case WEST: rotateMap(90); $('#player').addClass('arrow-left'); break;
-		case SOUTH: rotateMap(-180); $('#player').addClass('arrow-down'); break;
-		case EAST: rotateMap(-90); $('#player').addClass('arrow-right'); break;
+		case NORTH: rotateMap(0); break;
+		case WEST: rotateMap(90); break;
+		case SOUTH: rotateMap(-180); break;
+		case EAST: rotateMap(-90); break;
 		default: return;
 	}
 }
@@ -107,12 +106,12 @@ Player.prototype.inspect = function(){
 }
 
 Player.prototype.return = function(){
+	changePlayerIcon(player.directions.forward);
 	direction = NEUTRAL;
 	newActions = DEFAULT_ACTIONS;
 	this.inspecting = false;
 	removeAllActions();
 	changeDescrip("default");
-	changePlayerIcon(player.directions.forward);
 }
 
 Player.prototype.use = function(item){

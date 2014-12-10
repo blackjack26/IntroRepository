@@ -39,16 +39,35 @@ function setWarningText(text){
 }
 
 function rotateMap(degrees){
-	var currRoomDiv = $("#player").parent();
-	var top = parseInt(currRoomDiv.css("margin-top").substr(0, currRoomDiv.css("margin-top").indexOf("px")))+10;
+	var currRoomDiv = $(".hasPlayer");
+	var top = parseInt(currRoomDiv.css("margin-top").substr(0, currRoomDiv.css("margin-top").indexOf("px")))+9;
 	var left = parseInt(currRoomDiv.css("margin-left").substr(0, currRoomDiv.css("margin-left").indexOf("px")))+10;
-	
-	
-	var map = $("#player").parent().parent();
+		
+	var map = $(".map");
 	$(map).css({'-webkit-transform' : 'rotate('+ degrees +'deg)',
                  '-moz-transform' : 'rotate('+ degrees +'deg)',
                  '-ms-transform' : 'rotate('+ degrees +'deg)',
                  'transform' : 'rotate('+ degrees +'deg)',
 				 'transition': '1s transform',
 				 'transform-origin': left + "% " + top + "%"});
+}
+
+function adjustMap(){
+	var moves = {1 : "0px, 20px",
+				 2 : "20px, 0px",
+				 3 : "0px, -20px",
+				 4 : "-20px, 0px"}
+				 
+	var moveNums = [[0,20],[20,0],[0,-20],[-20,0]];
+	/*
+	$(".map-mover").css({
+		'transform' : 'translate('+moves[direction]+')',
+		'transition': '1s transform ease-in'
+	});
+	*/
+	var margTop = parseInt($(".map").css("margin-top").substr(0,$(".map").css("margin-top").indexOf("px")));
+	var margLeft = parseInt($(".map").css("margin-left").substr(0,$(".map").css("margin-left").indexOf("px")));
+
+	$(".map").css("margin-top", (margTop+moveNums[direction-1][1])+"px");
+	$(".map").css("margin-left", (margLeft+moveNums[direction-1][0])+"px");
 }

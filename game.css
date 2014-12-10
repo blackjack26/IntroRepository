@@ -163,9 +163,11 @@ li{
 	margin-top: -40px;
 	margin-left: -1px;
 	border: 1px solid #FFF;
+	background-color: #eee;
 }
 
 .map-circle{
+	-webkit-mask-image: -webkit-radial-gradient(white, black);
 	width: 101px;
 	height: 101px;
 	border-radius: 50.5px;
@@ -173,15 +175,17 @@ li{
 	margin-top: -100px;
 	border: 1px solid #FFF;
 	z-index: 1;
+	overflow: hidden;
 }
 
 .room{
-	width: 20px;
-	height: 20px;
+	width: 19px;
+	height: 19px;
 	border: 1px solid #FFF;
 	position: absolute;
 	opacity: 0.5;
 	display: none;
+	background-color: #444;
 }
 
 .show{
@@ -193,50 +197,54 @@ li{
 	background-color: #444;
 }
 
+.hasPlayer > a{
+	display: none;
+}
+
 .cellroom{
 	margin-top: 80px;
 	margin-left: 40px;
 }
 
 .emptycell{
-	margin-top: 59px;
-	margin-left: 19px;
+	margin-top: 60px;
+	margin-left: 20px;
 }
 
 .hallway{
 	margin-top: 60px;
 	margin-left: 40px;
-	border-top: 0px;
 }
 
 .hallway2{
-	margin-top: 39px;
+	margin-top: 40px;
 	margin-left: 40px;
-	border-bottom: 0px;
 }
 
 .courtyard{
-	margin-top: 39px;
-	margin-left: 19px;
+	margin-top: 40px;
+	margin-left: 20px;
 }
 
 .warden{
-	margin-top: 18px;
+	margin-top: 20px;
 	margin-left: 40px;
 }
 
 .hallway3{
-	margin-top: 39px;
-	margin-left: 61px;
+	margin-top: 40px;
+	margin-left: 60px;
 }
 
 #player{
-	margin-left: 5px;
-	margin-top: 5px;
+	margin-left: 45px;
+	margin-top: 46px;
 	width: 11px; 
 	height: 11px; 
 	background-image: url("player.png");
 	transition: 1s transform;
+	position: absolute;
+	z-index: 999;
 }
 
 .arrow-up{
@@ -264,4 +272,11 @@ li{
 
 .disabled{
 	background-color: #444;
+}
+
+.middle{
+	width: 101px;
+	height: 101px;
+	border-radius: 50.5px;
+	overflow: hidden;
 }

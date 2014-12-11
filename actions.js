@@ -59,6 +59,12 @@ function specialInspectActions(roomLocDir){
 		}else if(roomLocDir[1] == NORTH){
 			if(map.openDoors[HALLWAY2_ID][WARDEN_ID] == 1)
 				newActions = ["enter"];
+		}else if(roomLocDir[1] == EAST){
+			if(map.openDoors[HALLWAY2_ID][HALLWAY3_ID] == 1)
+				newActions = ["enter"];
+		}else if(roomLocDir[1] == WEST){
+			if(map.openDoors[HALLWAY2_ID][COURTYARD_ID] == 1)
+				newActions = ["enter"];
 		}
 	}
 }
@@ -215,7 +221,14 @@ function getTextFrom(roomLocDir, actionType){
 					else
 						return "What do these numbers mean?";
 				}
-				if(actionType == "punch"){
+				if(hasEventOccured("punch2")){
+					openDoor();
+					return "You found a secret room!";
+				}else if(hasEventOccured("punch")){
+					addEvent("punch2");
+					return "You made a bigger dent in the wall.";
+				}else if(actionType == "punch"){
+					addEvent("punch");
 					player.actions.push("pickup");
 					return "You broke some of the wall and a paint chip fell on the floor";
 				}
@@ -348,9 +361,12 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "think")
 					return "I wonder why they closed off this hallway, maybe there is a way to get down there.";
 				if(actionType == "punch"){
-					document.getElementById("action").placeholder = "";
-					alarm();
-					return "Your hand got stuck in the gates and an alarm began to sound";
+					if(!hasEventOccured("punch")){
+						alarm();
+						return "Your hand got stuck in the gates and an alarm began to sound";
+					}else{
+						return "Stop punching...just stop.";
+					}
 				}
 				if(actionType == "Fedora")
 					return "A suave man came up to you and opened the gate you were stuck on. The alarm stopped and the man left.";
@@ -358,6 +374,15 @@ function getTextFrom(roomLocDir, actionType){
 					return "A fancy man came up to you and unlocked the Warden's office so you were to meet with him about bonds. The alarm stopped and the man left.";
 				if(actionType == "Sports Hat")
 					return "A referee came up to you and unlocked the door to the sports field in the courtyard. The alarm stopped and the man left.";
+			}
+		}else if(roomLocDir[1] == WEST){
+			if(actionType == "inspect")
+				return "The door leads to some sports looking field. Not sure what sport.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "Maybe theres something in the dirt that I might need";
+				if(actionType == "punch")
+					return "You're not a boxer, cause apparently you think you are";
 			}
 		}
 	}

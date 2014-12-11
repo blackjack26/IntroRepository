@@ -234,6 +234,12 @@ li{
 .hallway3{
 	margin-top: 40px;
 	margin-left: 60px;
+	height: 16px;
+}
+
+.secret{
+	margin-top: 60px;
+	margin-left: 60px;
 }
 
 #player{

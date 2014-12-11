@@ -17,7 +17,9 @@ function blinded(){
 }
 
 function alarm(){
+	document.getElementById("action").placeholder = "";
 	document.getElementById("action").disabled = true;
+	addEvent("punch");
 	$("#action").addClass("disabled");
 	setTimeout(function(){
 		if(hat == "Fedora"){
@@ -30,6 +32,7 @@ function alarm(){
 		changeDescrip(hat);
 		$("#action").removeClass("disabled");
 		document.getElementById("action").disabled = false;
+		document.getElementById("action").placeholder = "What will you do?";
 	}, 6000);
 	
 }

@@ -5,6 +5,7 @@ var CELL_ID = 0,
 	COURTYARD_ID = 4;
 	WARDEN_ID = 5;
 	HALLWAY3_ID = 6;
+	SECRET_ID = 7;
 
 var NEUTRAL = 0,
 	NORTH = 1,
@@ -42,6 +43,7 @@ var locations = [
 					new Location("Courtyard", "You are in the courtyard, there is a sports field that is worn away in the grass.", []),
 					new Location("Warden's Office", "You are in the warden's office, beware if they catch you in there.", []),
 					new Location("Hallway", "You are in another hallway, but not as long.", []),
+					new Location("Super Secret Room", "You are in a super secret room. Awwww yeah", ["key"])
 				];
 
 // 0: No Connection
@@ -50,13 +52,14 @@ var locations = [
 // 3: Look back
 // 4: Right
 var connections = 
-	[[0,1,0,0,0,0,0],	
-	 [3,0,2,1,0,0,0],	
-	 [0,4,0,0,0,0,0], 
-	 [0,3,0,0,2,1,4],
-	 [0,0,0,4,0,0,0],
-	 [0,0,0,3,0,0,0],
-	 [0,0,0,2,0,0,0]];
+	[[0,1,0,0,0,0,0,0],	
+	 [3,0,2,1,0,0,0,4],	
+	 [0,4,0,0,0,0,0,0], 
+	 [0,3,0,0,2,1,4,0],
+	 [0,0,0,4,0,0,0,0],
+	 [0,0,0,3,0,0,0,0],
+	 [0,0,0,2,0,0,0,0],
+	 [0,2,0,0,0,0,0,0]];
 	 
 function zeros(dimensions){
 	var array = [];

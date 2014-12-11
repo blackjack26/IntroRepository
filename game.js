@@ -90,7 +90,7 @@ function changePlayerIcon(dir){
 		case NORTH: rotateMap(0); break;
 		case WEST: rotateMap(90); break;
 		case SOUTH: (player.directions.right == 3) ? rotateMap(-180) : rotateMap(180); break;
-		case EAST: rotateMap(-90); break;
+		case EAST: (player.directions.left == 4) ? rotateMap(270) : rotateMap(-90); break;
 		default: return;
 	}
 }

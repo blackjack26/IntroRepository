@@ -41,7 +41,7 @@ var locations = [
 					new Location("Empty Cell", "You are in another cell, it seems as though no one has been here for a while", ["sunglasses", "paper"]),
 					new Location("Hallway", "You are at the other end of the hallway", []),
 					new Location("Courtyard", "You are in the courtyard, there is a sports field that is worn away in the grass.", []),
-					new Location("Warden's Office", "You are in the warden's office, beware if they catch you in there.", []),
+					new Location("Warden's Office", "You are in the warden's office, beware if they catch you in there.", ["master key"]),
 					new Location("Hallway", "You are in another hallway, but not as long.", []),
 					new Location("Super Secret Room", "You are in a super secret room. Awwww yeah", ["key"])
 				];

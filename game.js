@@ -78,6 +78,10 @@ Player.prototype.lookright = function(){
 	direction = this.direction;
 }
 
+Player.prototype.lookat = function(){
+	changeDescrip("look at");
+}
+
 function looking(){
 	removeActions(DEFAULT_ACTIONS);
 	changePlayerIcon(player.direction);
@@ -301,7 +305,13 @@ function interpret(str){
 
 function execute(obj){
 	if(player.question != ""){
-		checkAnswer(obj.action);
+		if(obj.action == "exit"){
+			player.question = "";
+			player.return();
+			setWarningText("");
+		}else{
+			checkAnswer(obj.action);
+		}
 	}else if(obj.action == "I solemnly swear I'm up to no good"){
 		setWarningText("Cheater cheater pumpkin eater");
 		player.cheating = true;
@@ -344,7 +354,8 @@ function gameStart(){
 	$("#options").hide();
 	name = document.querySelector("#options > #name").value;
 	hat = document.querySelector("#select").value;
-	
+	randomNums = getThreeRandomNums();
+	randNumStr = randomNumsStr();
 	document.getElementById("descrip").textContent = name + ", " + map.locs[0].description;
 	var ENTER_KEY = 13;	
 	var textbox = document.getElementById("action");
@@ -383,3 +394,4 @@ $("#gameScreen").hide();
 window.onload = getOptions;
 var name = "";
 var hat = "";
+var randomNums, randNumStr;

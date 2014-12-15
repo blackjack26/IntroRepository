@@ -9,6 +9,7 @@ function isCorrect(answer, question){
 
 function checkAnswer(answer){
 	if(isCorrect(answer, player.question)){
+		setWarningText("");
 		changeDescrip("hidden");
 	}else{
 		player.errorCount += 1;
@@ -65,6 +66,31 @@ function specialInspectActions(roomLocDir){
 		}else if(roomLocDir[1] == WEST){
 			if(map.openDoors[HALLWAY2_ID][COURTYARD_ID] == 1)
 				newActions = ["enter"];
+		}
+	}
+	
+	/**** Warden ****/
+	else if(roomLocDir[0] == WARDEN_ID){
+		if(roomLocDir[1] == SOUTH){
+			newActions = ["enter"];
+		}else if(roomLocDir[1] == NORTH){
+			newActions = ["look at"];
+		}else if(roomLocDir[1] == WEST){
+			newActions = ["look at"];
+		}
+	}
+	
+	/**** Hallway3 ****/
+	else if(roomLocDir[0] == HALLWAY3_ID){
+		if(roomLocDir[1] == WEST){
+			newActions = ["enter"];
+		}
+	}
+	
+	/**** Courtyard ****/
+	else if(roomLocDir[0] == COURTYARD_ID){
+		if(roomLocDir[1] == EAST){
+			newACtions = ["enter"];
 		}
 	}
 }
@@ -133,6 +159,7 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "think")
 					return "Could these shapes mean something?";
 				if(actionType == "insert finger"){
+					setWarningText("Type 'exit' to return out of the question");
 					player.question = "shape";
 					document.getElementById("action").placeholder = "Answer the question";
 					return "What shape do you see?";
@@ -371,7 +398,7 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "Fedora")
 					return "A suave man came up to you and opened the gate you were stuck on. The alarm stopped and the man left.";
 				if(actionType == "Top Hat")
-					return "A fancy man came up to you and unlocked the Warden's office so you were to meet with him about bonds. The alarm stopped and the man left.";
+					return "A fancy man came up to you and unlocked the Warden's office so you could meet with him about bonds. The alarm stopped and the man left.";
 				if(actionType == "Sports Hat")
 					return "A referee came up to you and unlocked the door to the sports field in the courtyard. The alarm stopped and the man left.";
 			}
@@ -384,6 +411,71 @@ function getTextFrom(roomLocDir, actionType){
 				if(actionType == "punch")
 					return "You're not a boxer, cause apparently you think you are";
 			}
+		}
+	}
+	
+	/**** Warden ****/ 
+	else if(roomLocDir[0] == WARDEN_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "I wonder what kind of things in here will help me get out.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					return "There is a large desk with the name 'Richtofen' engraved.";
+				}
+				if(player.direction == SOUTH){
+					unstageAction("inspect");
+					stageAction("enter"); 
+					return "You see the open door to the office you just walked through.";
+				}
+				if(player.direction == WEST){
+					return "There is a small locker that looks to be closed.";
+				}
+				if(player.direction == EAST){
+					return "You see a giant portrait of a man in a suit.";
+				}
+			}
+		}else if(roomLocDir[1] == NORTH){
+			if(actionType == "inspect")
+				return "There are many things on the desk, but mostly papers that seem completely useless.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "There has got to be something important over here.";
+				if(actionType == "punch")
+					return "You pushed some useless papers onto the floor.";
+				if(actionType == "look at")
+					return "There is a paper dated " + randomNums[0] + "/" + randomNums[1] + "/" + randomNums[2] + ". It is some notice to the warden about a new inmate #115.";
+			}
+		}else if(roomLocDir[1] == WEST){
+			if(actionType == "inspect")
+				return "The small locker is pretty small but has a combination lock.";
+			if(player.inspecting){
+				if(actionType == "think")
+					return "There must be a combination to this somewhere.";
+				if(actionType == "punch")
+					return "You made a loud noise but nothing more than that";
+				if(actionType == "look at"){
+					setWarningText("Type 'exit' to return out of the question");
+					questionAnswers.lock = randNumStr;
+					player.question = "lock";
+					document.getElementById("action").placeholder = "Enter Combination";
+					return "Enter the combination for the locker";
+				}
+				if(actionType == "hidden"){
+					player.errorCount = 0;
+					player.question = "";
+					document.getElementById("action").placeholder = "What will you do?";
+					stageAction("pickup");
+					return "The locker opened and you can see a <span style='text-decoration: underline; font-weight: bold;'>master key</span>!";
+				}
+				if(actionType == "incorrect"){
+					if(player.errorCount == 3){
+						return "Strike 3! You have been terminated. Goodbye";
+					}
+					return "Strike " + player.errorCount + "!";
+					
+				}
+			}			
 		}
 	}
 }

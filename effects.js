@@ -88,3 +88,15 @@ function adjustMap(){
 	$(".map").css("margin-top", (margTop+moveNums[direction-1][1])+"px");
 	$(".map").css("margin-left", (margLeft+moveNums[direction-1][0])+"px");
 }
+
+function getThreeRandomNums(){
+	var one = Math.floor(Math.random()*12);
+	var two = Math.floor(Math.random()*30);
+	var three = Math.floor(Math.random()*99);
+	var newArr = [one, two, three];
+	return newArr;
+}
+
+function randomNumsStr(){
+	return randomNums[0]+""+randomNums[1]+""+randomNums[2];
+}

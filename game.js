@@ -30,7 +30,9 @@ Player.prototype.drop = function(item){
 	var index = this.items.indexOf(item);
 	if(index >= 0){
 		this.items.splice(index,1);
-		
+		if(item == "the bass"){
+			changeDescrip("bass");
+		}
 		var inventory = document.querySelector("#inventory > ul");
 		var inventoryItems = inventory.childNodes;
 		for(i in inventoryItems){
@@ -111,6 +113,7 @@ Player.prototype.inspect = function(){
 
 Player.prototype.return = function(){
 	changePlayerIcon(player.directions.forward);
+	document.getElementById("action").placeholder = "What will you do?";
 	direction = NEUTRAL;
 	newActions = DEFAULT_ACTIONS;
 	this.inspecting = false;

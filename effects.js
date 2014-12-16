@@ -22,9 +22,7 @@ function alarm(){
 	addEvent("punch");
 	$("#action").addClass("disabled");
 	setTimeout(function(){
-		if(hat == "Fedora"){
-			openDoor();
-		}else if(hat == "Top Hat"){
+		if(hat == "Top Hat" || hat == "Fedora"){
 			openDistDoor(HALLWAY2_ID, NORTH);
 		}else if(hat == "Sports Hat"){
 			openDistDoor(HALLWAY2_ID, WEST);

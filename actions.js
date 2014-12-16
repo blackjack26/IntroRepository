@@ -1,6 +1,7 @@
 var questionAnswers = {
 	//question-type: "answer"
 	shape: "circle",
+	exit: "NSE",
 };
 
 function isCorrect(answer, question){
@@ -63,9 +64,13 @@ function specialInspectActions(roomLocDir){
 		}else if(roomLocDir[1] == EAST){
 			if(map.openDoors[HALLWAY2_ID][HALLWAY3_ID] == 1)
 				newActions = ["enter"];
+			else if(player.has("master key"))
+				newActions = ["use"];
 		}else if(roomLocDir[1] == WEST){
 			if(map.openDoors[HALLWAY2_ID][COURTYARD_ID] == 1)
 				newActions = ["enter"];
+			else if(player.has("master key"))
+				newActions = ["use"];
 		}
 	}
 	
@@ -76,7 +81,8 @@ function specialInspectActions(roomLocDir){
 		}else if(roomLocDir[1] == NORTH){
 			newActions = ["look at"];
 		}else if(roomLocDir[1] == WEST){
-			newActions = ["look at"];
+			if(!hasEventOccured("master_lock"))
+				newActions = ["look at"];
 		}
 	}
 	
@@ -90,7 +96,7 @@ function specialInspectActions(roomLocDir){
 	/**** Courtyard ****/
 	else if(roomLocDir[0] == COURTYARD_ID){
 		if(roomLocDir[1] == EAST){
-			newACtions = ["enter"];
+			newActions = ["enter"];
 		}
 	}
 }
@@ -107,6 +113,23 @@ function itemUsedIn(roomLocDir, item){
 			}
 		}
 	}
+	
+	/**** Hallway2 ****/
+	if(roomLocDir[0] == HALLWAY2_ID){
+		if(roomLocDir[1] == WEST){
+			if(player.inspecting){
+				if(item == "master key"){
+					openDoor();
+				}
+			}
+		}else if(roomLocDir[1] == EAST){
+			if(player.inspecting){
+				if(item == "master key"){
+					openDoor();
+				}
+			}
+		}
+	}
 }
 
 function getTextFrom(roomLocDir, actionType){
@@ -114,6 +137,9 @@ function getTextFrom(roomLocDir, actionType){
 		return map.locs[roomLocDir[0]].description;
 	}else if(actionType == "door"){
 		return "The door opened!";
+	}else if(actionType == "bass"){
+			setTimeout(function(){location.reload();}, 15000);
+			return "Congrats! You win, what do you win?? You have escaped your own entrapment in your mind. Now here is a nice room in your very own cell! Maybe your thoughts will have helped you to escape it.";
 	}
 	
 	/**** CELL ****/
@@ -396,7 +422,7 @@ function getTextFrom(roomLocDir, actionType){
 					}
 				}
 				if(actionType == "Fedora")
-					return "A suave man came up to you and opened the gate you were stuck on. The alarm stopped and the man left.";
+					return "A suave man came up to you and opened the gate you were stuck on, closed it, then unlocked the warden's office. The alarm stopped and the man left.";
 				if(actionType == "Top Hat")
 					return "A fancy man came up to you and unlocked the Warden's office so you could meet with him about bonds. The alarm stopped and the man left.";
 				if(actionType == "Sports Hat")
@@ -429,9 +455,12 @@ function getTextFrom(roomLocDir, actionType){
 					return "You see the open door to the office you just walked through.";
 				}
 				if(player.direction == WEST){
-					return "There is a small locker that looks to be closed.";
+					if(!hasEventOccured("master_key"))
+						return "There is a small locker that looks to be closed.";
+					return "There is an open locker";
 				}
 				if(player.direction == EAST){
+					unstageAction("inspect"); 
 					return "You see a giant portrait of a man in a suit.";
 				}
 			}
@@ -462,6 +491,7 @@ function getTextFrom(roomLocDir, actionType){
 					return "Enter the combination for the locker";
 				}
 				if(actionType == "hidden"){
+					addEvent("master_key");
 					player.errorCount = 0;
 					player.question = "";
 					document.getElementById("action").placeholder = "What will you do?";
@@ -476,6 +506,106 @@ function getTextFrom(roomLocDir, actionType){
 					
 				}
 			}			
+		}
+	}
+	
+	/**** Secret Room ****/
+	else if(roomLocDir[0] == SECRET_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "I'm so awesome, I found a secret room.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					unstageAction("inspect");
+					addEvent("north");
+					return "There is a giant 'I' on the wall.";
+				}
+				if(player.direction == SOUTH){
+					unstageAction("inspect");
+					addEvent("south");
+					return "There are two I's on this wall.";
+				}
+				if(player.direction == EAST){
+					unstageAction("inspect");
+					if(hasEventOccured("north") && hasEventOccured("south")){
+						setWarningText("Type 'exit' to return out of the question");
+						player.question = "exit";
+						document.getElementById("action").placeholder = "Enter Password";
+						return "Enter the password to escape!!!";
+					}
+					return "There are three I's on the wall.";
+				}
+				if(player.direction == WEST){
+					unstageAction("inspect"); 
+					stageAction("enter"); 
+					return "You see the large hole in the wall you made.";
+				}
+			}
+		}else if(roomLocDir[1] == EAST){
+			if(actionType == "hidden"){
+				setTimeout(function(){location.reload();}, 15000);
+				return "Congrats! You win, what do you win?? You have escaped your own entrapment in your mind. Now here is a nice room in your very own cell! Maybe your thoughts will have helped you to escape it.";
+			}
+		}
+	}
+	
+	/**** Courtyard ****/
+	else if(roomLocDir[0] == COURTYARD_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think"){
+				if(!hasEventOccured("skrillex"))
+					return "I feel like there is nothing out here.";
+				return "Maybe I should do with that bass as Skrillex does";
+			}
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					unstageAction("inspect");
+					stageAction("pickup");
+					stageAction("drop");
+					addEvent("skrillex");
+					return "There is a man standing there with 'the bass' on the ground in front of him.";
+				}
+				if(player.direction == SOUTH){
+					unstageAction("inspect");
+					return "Nothing but a wall of some cell in the building";
+				}
+				if(player.direction == EAST){
+					unstageAction("inspect");
+					stageAction("enter");
+					return "There is the door back inside opened.";
+				}
+				if(player.direction == WEST){
+					unstageAction("inspect"); 
+					return "There is a giant cliff going into the foggy abyss.";
+				}
+			}
+		}
+	}
+	
+	/**** Hallway 3 ****/
+	else if(roomLocDir[0] == HALLWAY3_ID){
+		if(roomLocDir[1] == NEUTRAL){
+			if(actionType == "think")
+				return "I'm feeling some music right now. The bass is always the best.";
+			if(actionType.indexOf("look") >= 0){
+				if(player.direction == NORTH){
+					unstageAction("inspect");
+					return "This wall was so boring all that is written on it is 'undefined'";
+				}
+				if(player.direction == SOUTH){
+					unstageAction("inspect");
+					return "Don't worry about it, just a crematorium.";
+				}
+				if(player.direction == EAST){
+					unstageAction("inspect");
+					return "Its too far of a walk to go anywhere that way, so just don't worry about that.";
+				}
+				if(player.direction == WEST){
+					unstageAction("inspect"); 
+					stageAction("enter");
+					return "There's the door to humanity....not, go in there.";
+				}
+			}
 		}
 	}
 }
